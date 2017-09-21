@@ -5,7 +5,7 @@ export default class TopPlayers extends Component{
         return(
             <div className="card">
                 <div className="card-header bg-dark text-white">
-                    Top Players (20)
+                <i className="fa fa-line-chart" aria-hidden="true"></i> Top Players (20)
                 </div>    
                 <div className="card-body">
                     <div className="card">
@@ -60,7 +60,7 @@ export default class TopPlayers extends Component{
                             <td>26</td>
                         </tr>
                         <tr>
-                            <td>Jabrill Pepper</td>
+                            <td>Jabrill Peppers</td>
                             <td>20</td>
                         </tr>
                     </tbody>

@@ -5,7 +5,7 @@ export default class LatestScoringPlays extends Component{
         return(
             <div className="card">
                 <div className="card-header bg-dark text-white">
-                    Latest Scoring Plays (25)
+                    <i className="fa fa-clock-o" aria-hidden="true"></i> Latest Scoring Plays (25)
                 </div>    
                 <div className="card-body">
                 
