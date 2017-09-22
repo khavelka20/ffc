@@ -6,7 +6,7 @@ export default class SidePanel extends Component{
     render(){
         return(
             <div>
-                <label><strong>Information</strong></label>
+                <label><strong>Around The League</strong></label>
                 <TopPlayers />
                 <br/>
                 <LatestScoringPlays />

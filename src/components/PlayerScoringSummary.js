@@ -4,9 +4,9 @@ export default class PlayerScoringSummary extends Component{
     render(){
         return(
             <tbody>
-            <tr>
-                <td className="pointer">
-                    <i className="fa fa-chevron-down show-more"></i> {this.props.name}
+            <tr className={(this.props.isEven ? "" : "odd" )}>
+                <td className="pointer" onClick={() => this.props.onShowPlaysClick(this.props.gameId, this.props.playerId, this.props.isUserTeam)}>
+                    <i className={"fa fa-chevron-" + (this.props.showPlays ? "up" : "down") + " show-more"}></i> {this.props.name}
                 </td> 
                 <td>
                     {this.props.position}
@@ -15,7 +15,7 @@ export default class PlayerScoringSummary extends Component{
                     {this.props.score}
                 </td>
             </tr>
-            <tr>
+            <tr hidden={this.props.showPlays ? "" : "hidden"}>
                 <th colSpan={2}>Play</th>
                 <th>Score</th>
             </tr>

@@ -44,3 +44,19 @@
 .pointer{
   cursor: pointer;
 }
+
+.card.game tbody{
+  border:none;
+}
+
+.card.game table tr.odd{
+  background-color: rgba(0,0,0,.05);
+}
+
+#top-players-filter{
+  padding: 0 20px 20px 20px;
+}
+
+#top-players-filter label{
+  margin-right: 30px;
+}
