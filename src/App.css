@@ -8,6 +8,7 @@
 
 .show-more{
   color: #0275d8;
+  cursor: pointer;
 }
 
 .card.game{
@@ -38,4 +39,8 @@
 .card.game .card-title{
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
+}
+
+.pointer{
+  cursor: pointer;
 }

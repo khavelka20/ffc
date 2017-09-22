@@ -31,19 +31,32 @@ export default class Game extends Component{
                             </div>
                             <div className="show-detail">
                                 <span className="text-primary" onClick={this.props.onShowDetailsClick}>
-                                    <i className="fa fa-chevron-down"></i> Details
+                                    <i className={"fa fa-chevron-" + (this.props.showDetails ? "up" : "down")}></i> Details
                                 </span>
                             </div>
                         </div>
                     <div className="card-body" hidden={(this.props.showDetails ? ""  : "hidden")}>
-                        {this.props.players.map(function(player, index){
-                            return(
-                                <PlayerScoringSummary
-                                    key={player.id}
-                                    name={player.name}
-                                />
-                            )
-                        })}
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Player</th>
+                                    <th>Position</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            {this.props.players.map(function(player, index){
+                                return(
+                                    <PlayerScoringSummary
+                                        key={player.id}
+                                        name={player.name}
+                                        position={player.position}
+                                        score={player.score}
+                                        plays={player.plays}
+                                        showPlays={player.showPlays}
+                                    />
+                                )
+                            })}
+                        </table>
                     </div>
                 </div>
             </div>
