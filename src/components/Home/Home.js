@@ -11,11 +11,9 @@ export default class Home extends Component{
                 <div className="row">
                 <div className="col-lg-9">
                     <FilterBar />
-                    
                     <div id="add-game-bar">
                         <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                     </div>
-                    
                     <GameContainer />
                 </div>
                 <div className="col-lg-3">

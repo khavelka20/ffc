@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class AddGame extends Component{
     render(){
@@ -6,7 +7,7 @@ export default class AddGame extends Component{
             <div className="container">
                 <div className="card">
                     <div className="card-header">
-                        <strong>Add Game</strong>
+                        <strong>Add A Game</strong>
                     </div>
                     <div className="card-body">
                         <form>
@@ -16,7 +17,7 @@ export default class AddGame extends Component{
                                     <option>League 2</option>
                                 </select>
                                 <span className="input-group-btn">
-                                    <button className="btn btn-secondary" type="button">Add A League</button>
+                                <Link to='/leagues/add' className="btn btn-secondary">Add League</Link>
                                 </span>
                             </div>
 
@@ -38,43 +39,23 @@ export default class AddGame extends Component{
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>WR</td>
                                                         <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
+                                                            <select className="form-control form-control-sm">
+                                                                <option>QB</option>
+                                                                <option>WR</option>
+                                                                <option>RB</option>
+                                                                <option>TE</option>
+                                                                <option>PK</option>
+                                                                <option>DT</option>
+                                                            </select>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>QB</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>RB</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TE</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>PK</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>DT</td>
                                                         <td>
                                                             <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            <button type="button" className="btn btn-success btn-sm"><i className="fa fa-plus"></i> Add Player</button>
                                         </div>
                                     </div>
                                 </div>
@@ -93,49 +74,29 @@ export default class AddGame extends Component{
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>WR</td>
                                                         <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
+                                                            <select className="form-control form-control-sm">
+                                                                <option>QB</option>
+                                                                <option>WR</option>
+                                                                <option>RB</option>
+                                                                <option>TE</option>
+                                                                <option>PK</option>
+                                                                <option>DT</option>
+                                                            </select>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>QB</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>RB</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TE</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>PK</td>
-                                                        <td>
-                                                            <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>DT</td>
                                                         <td>
                                                             <input type="text" className="form-control form-control-sm" placeholder="Start Typing" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            <button type="button" className="btn btn-success btn-sm"><i className="fa fa-plus"></i> Add Player</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="spacer"></div>
-                            <button className="btn btn-primary btn-block">Save Game</button>
+                            <button className="btn btn-primary pull-right">Save Game</button>
                         </form>
                     </div>
                 </div>
