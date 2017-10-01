@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import FilterBar from  './FilterBar.js';
 import GameContainer from '../Games/GameContainer.js';
 import SidePanel from './SidePanel.js';
+import Layout from "../Layout/Layout.js";
+
 import { Link } from 'react-router-dom'
 
 export default class Home extends Component{
     render(){
         return(
-            <div>
+            <Layout>
                 <div className="row">
                 <div className="col-lg-9">
                     <FilterBar />
@@ -20,7 +22,7 @@ export default class Home extends Component{
                     <SidePanel />
                 </div>
                 </div>
-            </div>
+            </Layout>
         );
     }
 }

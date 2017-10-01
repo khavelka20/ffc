@@ -87,3 +87,30 @@ body {
 table.add-game td{
   vertical-align: middle;
 }
+
+#main-header{
+  background-color:#2b2c2d!important;text-align:center;
+}
+
+#red-stripe{
+  background-color:red; height:3px;
+}
+
+#main-logo{
+  width: 75px;
+}
+#main-container{
+  margin-top:25px;
+}
+
+#main-logo-link{
+  margin: 0 auto;
+}
+
+.add-league{
+  margin-top: 15px;
+}
+
+.btn-toolbar .btn{
+  margin-right: 5px;
+}

@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Layout from '../../Layout/Layout.js';
+import AddLeague from '../../Leagues/Add/AddLeague.js';
 
 export default class AddGame extends Component{
+    constructor(){
+        super();
+        this.state = {
+            showAddLeague: false
+        }
+        this.toggleOnShowAddLeague = this.toggleOnShowAddLeague.bind(this);
+    }
+
+    toggleOnShowAddLeague(){
+        this.setState({showAddLeague: !this.state.showAddLeague});
+    }
+
     render(){
         return(
+            <Layout>
             <div className="container">
                 <div className="card">
                     <div className="card-header">
@@ -17,10 +31,13 @@ export default class AddGame extends Component{
                                     <option>League 2</option>
                                 </select>
                                 <span className="input-group-btn">
-                                <Link to='/leagues/add' className="btn btn-secondary">Add League</Link>
+                                <button type="button" className="btn btn-secondary" onClick={this.toggleOnShowAddLeague}>Add League</button>
                                 </span>
                             </div>
-
+                            <AddLeague 
+                                show={this.state.showAddLeague}
+                                toggle={this.toggleOnShowAddLeague}
+                            />
                             <div className="clearfix"></div>
                             <div className="spacer"></div>
                             <div className="row">
@@ -96,11 +113,15 @@ export default class AddGame extends Component{
                                 </div>
                             </div>
                             <div className="spacer"></div>
-                            <button className="btn btn-primary pull-right">Save Game</button>
+                            <div className="btn-toolbar">
+                                <button type="button" className="btn btn-primary">Save Game</button>
+                                <button type="button" className="btn btn-danger">Cancel</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+            </Layout>
         );
     }
 }
