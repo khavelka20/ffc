@@ -1,203 +1,54 @@
 import React, { Component } from 'react';
 import Game from './Game.js'
+import GameApi from '../../DataAccess/GameApi.js';
+import _ from 'underscore';
 
 export default class GameContainer extends Component{
     constructor(){
         super();
         this.state = {
-            games: 
-            [
-                {
-                  "id": 1,
-                  "league": "ESPN League",
-                  "userTeam": {
-                    "name": "The Ballers",
-                    "score": 10,
-                    "players": [
-                      {
-                        "id": 1,
-                        "position": "QB",
-                        "name": "DeShone Kizer",
-                        "score": 26,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down pass",
-                            "score": 16
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard rushing touch down.",
-                            "score": 10
-                          }
-                        ]
-                      },
-                      {
-                        "id": 2,
-                        "position": "WR",
-                        "name": "Jabrill Peppers",
-                        "score": 20,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down reception.",
-                            "score": 10
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard touch down reception.",
-                            "score": 10
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "opponentTeam": {
-                    "name": "The Bad Guys",
-                    "score": 15,
-                    "players": [
-                      {
-                        "id": 1,
-                        "position": "QB",
-                        "name": "DeShone Kizer",
-                        "score": 26,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down pass",
-                            "score": 16
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard rushing touch down.",
-                            "score": 10
-                          }
-                        ]
-                      },
-                      {
-                        "id": 2,
-                        "position": "WR",
-                        "name": "Jabrill Peppers",
-                        "score": 20,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down reception.",
-                            "score": 10
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard touch down reception.",
-                            "score": 10
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "showDetails": false,
-                  "winning": false
-                },
-                {
-                  "id": 2,
-                  "league": "Yahoo Sports",
-                  "userTeam": {
-                    "name": "The Ringleaders",
-                    "score": 40,
-                    "players": [
-                      {
-                        "id": 1,
-                        "position": "QB",
-                        "name": "DeShone Kizer",
-                        "score": 26,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down pass",
-                            "score": 16
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard rushing touch down.",
-                            "score": 10
-                          }
-                        ]
-                      },
-                      {
-                        "id": 2,
-                        "position": "WR",
-                        "name": "Jabrill Peppers",
-                        "score": 20,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down reception.",
-                            "score": 10
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard touch down reception.",
-                            "score": 10
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "opponentTeam": {
-                    "name": "The Antagonists",
-                    "score": 9,
-                    "players": [
-                      {
-                        "id": 1,
-                        "position": "QB",
-                        "name": "DeShone Kizer",
-                        "score": 26,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down pass",
-                            "score": 16
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard rushing touch down.",
-                            "score": 10
-                          }
-                        ]
-                      },
-                      {
-                        "id": 2,
-                        "position": "WR",
-                        "name": "Jabrill Peppers",
-                        "score": 20,
-                        "showPlays": false,
-                        "plays": [
-                          {
-                            "id": 1,
-                            "description": "36 yard touch down reception.",
-                            "score": 10
-                          },
-                          {
-                            "id": 2,
-                            "description": "5 yard touch down reception.",
-                            "score": 10
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "showDetails": false,
-                  "winning": true
-                }
-              ]
+            games: [],
+            loading: false
         }
         this.onShowPlaysClick = this.onShowPlaysClick.bind(this);
+        this.loadGameData = this.loadGameData.bind(this);
+    }
+
+    getGamesShowingDetails(){
+        var gamesToShowDetails = _.filter(this.state.games.slice(), (game) =>{
+          return game.showDetails;
+        });
+
+        return gamesToShowDetails;
+    }
+
+    transferStateToUpdatedGames(updatedGames){
+        var gamesToShowDetails = this.getGamesShowingDetails();
+
+        _.each(updatedGames, (updatedGame) => {
+
+          var gameToShowDetail = _.findWhere(gamesToShowDetails, {id: updatedGame.id});
+          if(gameToShowDetail){
+            updatedGame.showDetails = true;
+
+            var playersToPlays = _.filter(gamesToShowDetails.userTeam.players, (player) => {
+              return player.playersToPlays;
+            }, this);
+          }
+        }, this);
+
+        return updatedGames;
+    }
+
+    loadGameData(){
+      GameApi.requestGames().then(data => {
+        var updatedGames = this.transferStateToUpdatedGames(data);
+        this.setState({games: updatedGames});
+      });
+    }
+
+    componentDidMount(){
+      this.loadGameData();
     }
 
     onShowDetailsClick(i){
@@ -227,29 +78,32 @@ export default class GameContainer extends Component{
 
     render(){
         return(
-            <div className="row">
-                {
-                    this.state.games.map(function(game, index){
-                        return (
-                                <Game
-                                    key={game.id}
-                                    gameId = {game.id}
-                                    league={game.league} 
-                                    userTeamName={game.userTeam.name}
-                                    opponentTeamName= {game.opponentTeam.name}
-                                    leagueName={game.league}
-                                    winning={game.winning}
-                                    userTeamScore={game.userTeam.score}
-                                    opponentTeamScore={game.opponentTeam.score}
-                                    showDetails={game.showDetails}
-                                    onShowDetailsClick={() => this.onShowDetailsClick(index)}
-                                    userTeamPlayers={game.userTeam.players}
-                                    opponentTeamPlayers={game.opponentTeam.players}
-                                    onShowPlaysClick={this.onShowPlaysClick}
-                                />
-                            );
-                    }, this)
-                }
+          <div>
+              <button className="btn btn-secondary btn-sm" onClick={this.loadGameData}>Refresh</button>
+              <div className="row">
+                  {
+                      this.state.games.map(function(game, index){
+                          return (
+                                  <Game
+                                      key={game.id}
+                                      gameId = {game.id}
+                                      league={game.league} 
+                                      userTeamName={game.userTeam.name}
+                                      opponentTeamName= {game.opponentTeam.name}
+                                      leagueName={game.league}
+                                      winning={game.winning}
+                                      userTeamScore={game.userTeam.score}
+                                      opponentTeamScore={game.opponentTeam.score}
+                                      showDetails={game.showDetails}
+                                      onShowDetailsClick={() => this.onShowDetailsClick(index)}
+                                      userTeamPlayers={game.userTeam.players}
+                                      opponentTeamPlayers={game.opponentTeam.players}
+                                      onShowPlaysClick={this.onShowPlaysClick}
+                                  />
+                              );
+                      }, this)
+                  }
+              </div>
             </div>
         );
     }
