@@ -39,7 +39,7 @@ body {
   cursor: pointer;
 }
 
-.card.game .team-names{
+.card.game .team-names, .small-text{
   font-size: 12px;
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PlayerScoringSummary from './PlayerScoringSummary.js'
+import moment from 'moment';
 export default class Game extends Component{
     render(){
         return(
@@ -11,8 +12,21 @@ export default class Game extends Component{
                             <span className={"badge " + (this.props.winning ? 'badge-success' : 'badge-danger') + ' pull-right'}>
                                 {this.props.winning ? 'Winning' : 'Losing'}
                             </span>
+                            
+                            <div className="row">
+                                <div className="col-7">
+                                    <span className="team-names">{this.props.userTeamName} Vs {this.props.opponentTeamName}</span>
+                                </div>
+                                <div className="col-5"style={{textAlign: "right"}}>
+                                    <span className="text-muted small-text">
+                                        <i className="fa fa-check-square-o" aria-hidden="true"></i> 4 of 10 players
+                                    </span>
+                                </div>
+                            </div>
                             <div>
-                                <span className="team-names text-muted">{this.props.userTeamName} Vs {this.props.opponentTeamName}</span>
+                                <span className="text-muted small-text">
+                                    <i className="fa fa-clock-o" aria-hidden="true"></i> Updated {moment(this.props.updatedAt).fromNow()}
+                                </span>
                             </div>
                         </div>
                             <div className="row">
