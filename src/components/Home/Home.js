@@ -4,7 +4,7 @@ import GameContainer from '../Games/GameContainer.js';
 import SidePanel from './SidePanel.js';
 import Layout from "../Layout/Layout.js";
 import { Link } from 'react-router-dom'
-import GameApi from '../../DataAccess/GameApi.js';
+import HomeApi from '../../DataAccess/HomeApi.js';
 import _ from 'underscore';
 
 export default class Home extends Component{
@@ -13,9 +13,11 @@ export default class Home extends Component{
         super();
         this.state = {
             games: [],
-            intervalId: null
+            intervalId: null,
+            scoringPlays: []
         }
-        this.onShowPlaysClick = this.onShowPlaysClick.bind(this);
+
+        this.onShowStatsClick = this.onShowStatsClick.bind(this);
         this.onShowDetailsClick = this.onShowDetailsClick.bind(this);
         this.loadData = this.loadData.bind(this);
     }
@@ -32,11 +34,11 @@ export default class Home extends Component{
         var gamesShowingDetails = this.getGamesShowingDetails();
 
         _.each(gamesShowingDetails, (gameShowingDetails) => {
-            var gameToGetState = _.findWhere(updatedGames, {id: gameShowingDetails.id});
+            var gameToGetState = _.findWhere(updatedGames, {Id: gameShowingDetails.Id});
             if(gameToGetState){
               gameToGetState.showDetails = true;
-              this.transerStateToPlayers(gameShowingDetails.userTeam.players, gameToGetState.userTeam.players);
-              this.transerStateToPlayers(gameShowingDetails.opponentTeam.players, gameToGetState.opponentTeam.players);
+              this.transerStateToPlayers(gameShowingDetails.UserTeam.Players, gameToGetState.UserTeam.Players);
+              this.transerStateToPlayers(gameShowingDetails.OpponentTeam.Players, gameToGetState.OpponentTeam.Players);
             }
         }, this);
 
@@ -45,7 +47,7 @@ export default class Home extends Component{
 
     transerStateToPlayers(playersSettingState, playersGettingState){
       _.each(playersSettingState, (playerSettingState) => {
-        var playerGettingState = _.findWhere(playersGettingState, {id: playerSettingState.id})
+        var playerGettingState = _.findWhere(playersGettingState, {Id: playerSettingState.Id})
         if(playerGettingState){
           playerGettingState.showPlays = playerSettingState.showPlays;
         }
@@ -53,14 +55,15 @@ export default class Home extends Component{
     }
 
     loadData(){
-      GameApi.requestGames().then(data => {
-        var updatedGames = this.transferStateToUpdatedGames(data);
+      HomeApi.requestViewModel().then(data => {
+        var updatedGames = this.transferStateToUpdatedGames(data.Games);
         this.setState({games: updatedGames});
+        this.setState({scoringPlays: data.ScoringPlays});
       });
     }
 
     componentDidMount(){
-        var intervalId = setInterval(() => { this.loadData(); },7500);
+        var intervalId = setInterval(() => { this.loadData(); }, 30000);
         this.setState({intervalId : intervalId});
         this.loadData()
     }
@@ -76,20 +79,20 @@ export default class Home extends Component{
         this.setState({games: games});
     }
 
-    onShowPlaysClick(_gameId, _playerId, _isUserTeam){
+    onShowStatsClick(_gameId, _playerId, _isUserTeam){
         var games = this.state.games.slice();
         
         var game = games.filter(function(game, index){
-            return game.id === _gameId
+            return game.Id === _gameId
         }, _gameId)
 
-        var players = _isUserTeam ? game[0].userTeam.players : game[0].opponentTeam.players;
+        var players = _isUserTeam ? game[0].UserTeam.Players : game[0].OpponentTeam.Players;
 
         var player = players.filter(function(player, index){
-            return player.id === _playerId;
+            return player.Id === _playerId;
         }, _playerId)
 
-        player[0].showPlays = !player[0].showPlays;
+        player[0].showStats = !player[0].showStats;
 
         this.setState({games: games});
     }
@@ -105,12 +108,14 @@ export default class Home extends Component{
                     </div>
                     <GameContainer 
                         games={this.state.games}
-                        onShowPlaysClick={this.onShowPlaysClick}
+                        onShowStatsClick={this.onShowStatsClick}
                         onShowDetailsClick={this.onShowDetailsClick}
                     />
                 </div>
                 <div className="col-lg-3">
-                    <SidePanel />
+                    <SidePanel 
+                        latestScoringPlays={this.state.scoringPlays}
+                    />
                 </div>
                 </div>
             </Layout>

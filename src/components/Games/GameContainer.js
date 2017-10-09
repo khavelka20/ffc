@@ -10,21 +10,22 @@ export default class GameContainer extends Component{
                       this.props.games.map(function(game, index){
                           return (
                                   <Game
-                                      key={game.id}
-                                      updatedAt={game.updatedAt}
-                                      gameId = {game.id}
-                                      league={game.league} 
-                                      userTeamName={game.userTeam.name}
-                                      opponentTeamName= {game.opponentTeam.name}
-                                      leagueName={game.league}
-                                      winning={game.winning}
-                                      userTeamScore={game.userTeam.score}
-                                      opponentTeamScore={game.opponentTeam.score}
+                                      key={game.Id}
+                                      updatedAt={game.LastUpdate}
+                                      gameId = {game.Id}
+                                      userTeamName={game.UserTeam.Name}
+                                      opponentTeamName= {game.OpponentTeam.Name}
+                                      leagueName={game.League.Name}
+                                      winning={game.UserIsWinning}
+                                      userTeamCurrentPoints={game.UserTeam.CurrentPoints}
+                                      opponentTeamCurrentPoints={game.OpponentTeam.CurrentPoints}
                                       showDetails={game.showDetails}
                                       onShowDetailsClick={() => this.props.onShowDetailsClick(index)}
-                                      userTeamPlayers={game.userTeam.players}
-                                      opponentTeamPlayers={game.opponentTeam.players}
-                                      onShowPlaysClick={this.props.onShowPlaysClick}
+                                      userTeamPlayers={game.UserTeam.Players}
+                                      opponentTeamPlayers={game.OpponentTeam.Players}
+                                      onShowStatsClick={this.props.onShowStatsClick}
+                                      playersStarted={game.UserTeam.PlayersStarted}
+                                      playersWeekComplete={game.UserTeam.PlayersWeekComplete}
                                   />
                               );
                       }, this)

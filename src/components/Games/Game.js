@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PlayerScoringSummary from './PlayerScoringSummary.js'
+import PlayerStatSummary from './PlayerStatSummary.js'
 import moment from 'moment';
 export default class Game extends Component{
     render(){
@@ -19,7 +19,7 @@ export default class Game extends Component{
                                 </div>
                                 <div className="col-5"style={{textAlign: "right"}}>
                                     <span className="text-muted small-text">
-                                        <i className="fa fa-check-square-o" aria-hidden="true"></i> 4 of 10 players
+                                        <i className="fa fa-check-square-o" aria-hidden="true"></i> {this.props.playersWeekComplete} of {this.props.playersStarted} players
                                     </span>
                                 </div>
                             </div>
@@ -30,17 +30,17 @@ export default class Game extends Component{
                             </div>
                         </div>
                             <div className="row">
-                                <div className="col-3 team-name">
+                                <div className="col-2 team-name">
                                     Your Team
                                 </div>
-                                <div className="col-3 score">
-                                    {this.props.userTeamScore}
+                                <div className="col-4 score">
+                                    {Math.round(this.props.userTeamCurrentPoints * 10  ) / 10}
                                 </div>
-                                <div className="col-3 team-name">
+                                <div className="col-2 team-name">
                                     Their Team
                                 </div>
-                                <div className="col-3 score">
-                                    {this.props.opponentTeamScore}
+                                <div className="col-4 score">
+                                {Math.round(this.props.opponentTeamCurrentPoints * 10)  / 10}
                                 </div>
                             </div>
                             <div className="show-detail" onClick={this.props.onShowDetailsClick}>
@@ -60,22 +60,22 @@ export default class Game extends Component{
                                 <tr>
                                     <th>Player</th>
                                     <th>Position</th>
-                                    <th>Score</th>
+                                    <th>Points</th>
                                 </tr>
                             </thead>
                             {this.props.userTeamPlayers.map(function(player, index){
                                 return(
-                                    <PlayerScoringSummary
-                                        key={player.id}
-                                        playerId={player.id}
+                                    <PlayerStatSummary
+                                        key={player.Id}
+                                        playerId={player.Id}
                                         gameId={this.props.gameId}
-                                        name={player.name}
-                                        position={player.position}
-                                        score={player.score}
-                                        plays={player.plays}
-                                        showPlays={player.showPlays}
+                                        name={player.Name}
+                                        position={player.Position}
+                                        currentWeekPoints={player.CurrentWeekPoints}
+                                        currentWeekStats={player.CurrentWeekStats}
+                                        showStats={player.showStats}
                                         isEven={index % 2 === 0}
-                                        onShowPlaysClick={this.props.onShowPlaysClick}
+                                        onShowStatsClick={this.props.onShowStatsClick}
                                         isUserTeam={true}
                                     />
                                 )
@@ -91,22 +91,22 @@ export default class Game extends Component{
                                 <tr>
                                     <th>Player</th>
                                     <th>Position</th>
-                                    <th>Score</th>
+                                    <th>Points</th>
                                 </tr>
                             </thead>
                             {this.props.opponentTeamPlayers.map(function(player, index){
                                 return(
-                                    <PlayerScoringSummary
-                                        key={player.id}
-                                        playerId={player.id}
+                                    <PlayerStatSummary
+                                        key={player.Id}
+                                        playerId={player.Id}
                                         gameId={this.props.gameId}
-                                        name={player.name}
-                                        position={player.position}
-                                        score={player.score}
-                                        plays={player.plays}
-                                        showPlays={player.showPlays}
+                                        name={player.Name}
+                                        position={player.Position}
+                                        currentWeekPoints={player.CurrentWeekPoints}
+                                        currentWeekStats={player.CurrentWeekStats}
+                                        showStats={player.showStats}
                                         isEven={index % 2 === 0}
-                                        onShowPlaysClick={this.props.onShowPlaysClick}
+                                        onShowStatsClick={this.props.onShowStatsClick}
                                         isUserTeam={false}
                                     />
                                 )

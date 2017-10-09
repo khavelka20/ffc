@@ -9,7 +9,9 @@ export default class SidePanel extends Component{
                 <label><strong>Around The League</strong></label>
                 <TopPlayers />
                 <br/>
-                <LatestScoringPlays />
+                <LatestScoringPlays
+                    plays={this.props.latestScoringPlays}
+                />
             </div>
         );
     }
