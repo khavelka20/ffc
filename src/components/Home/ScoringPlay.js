@@ -6,7 +6,7 @@ export default class ScoringPlay extends Component{
         return(
             <tr>
                <td>
-                    <strong>{moment(this.props.createdAt).fromNow()}</strong>
+                    <strong>{moment(this.props.createdAt).fromNow()}</strong>: 
                     <br/>
                     {this.props.description}
                 </td>
