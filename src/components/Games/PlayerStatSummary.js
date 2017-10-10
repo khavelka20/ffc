@@ -4,7 +4,7 @@ export default class PlayerScoringSummary extends Component{
     render(){
         return(
             <tbody>
-            <tr className={(this.props.isEven ? "" : "odd" )}>
+            <tr>
                 <td className="pointer" onClick={() => this.props.onShowStatsClick(this.props.gameId, this.props.playerId, this.props.isUserTeam)}>
                     <i className={"fa fa-chevron-" + (this.props.showStats ? "up" : "down") + " show-more"}></i> {this.props.name}
                 </td> 

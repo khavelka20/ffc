@@ -6,7 +6,7 @@ export default class LatestScoringPlays extends Component{
         return(
             <div className="card">
                 <div className="card-header">
-                    <i className="fa fa-clock-o" aria-hidden="true"></i> Latest Scoring Plays <span className="badge badge-dark">{this.props.plays.length}</span>
+                    Latest Scoring Plays <span className="badge badge-dark">{this.props.plays.length}</span>
                 </div>    
                 <div className="card-body">
                     <table className="table table-striped latest-scoring-plays">

@@ -50,68 +50,75 @@ export default class Game extends Component{
                             </div>
                         </div>
                     <div className="card-body" hidden={(this.props.showDetails ? ""  : "hidden")}>
-                        <table className="table table-condensed">
-                            <thead>
-                                <tr>
-                                    <th colSpan={3}>{this.props.userTeamName}</th>
-                                </tr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th>Player</th>
-                                    <th>Position</th>
-                                    <th>Points</th>
-                                </tr>
-                            </thead>
-                            {this.props.userTeamPlayers.map(function(player, index){
-                                return(
-                                    <PlayerStatSummary
-                                        key={player.Id}
-                                        playerId={player.Id}
-                                        gameId={this.props.gameId}
-                                        name={player.Name}
-                                        position={player.Position}
-                                        currentWeekPoints={player.CurrentWeekPoints}
-                                        currentWeekStats={player.CurrentWeekStats}
-                                        showStats={player.showStats}
-                                        isEven={index % 2 === 0}
-                                        onShowStatsClick={this.props.onShowStatsClick}
-                                        isUserTeam={true}
-                                    />
-                                )
-                            }, this)}
-                        </table>
-                        <table className="table table-condensed">
-                            <thead>
-                                <tr>
-                                    <th colSpan={3}>{this.props.opponentTeamName}</th>
-                                </tr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th>Player</th>
-                                    <th>Position</th>
-                                    <th>Points</th>
-                                </tr>
-                            </thead>
-                            {this.props.opponentTeamPlayers.map(function(player, index){
-                                return(
-                                    <PlayerStatSummary
-                                        key={player.Id}
-                                        playerId={player.Id}
-                                        gameId={this.props.gameId}
-                                        name={player.Name}
-                                        position={player.Position}
-                                        currentWeekPoints={player.CurrentWeekPoints}
-                                        currentWeekStats={player.CurrentWeekStats}
-                                        showStats={player.showStats}
-                                        isEven={index % 2 === 0}
-                                        onShowStatsClick={this.props.onShowStatsClick}
-                                        isUserTeam={false}
-                                    />
-                                )
-                            }, this)}
-                        </table>
+                        <div className="game-stats-container">
+                            <table className="table">
+                                <thead className="thead-default">
+                                    <tr>
+                                        <th colSpan={3}>
+                                            <i className="fa fa-user" aria-hidden="true"></i> {this.props.userTeamName}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Position</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                {this.props.userTeamPlayers.map(function(player, index){
+                                    return(
+                                        <PlayerStatSummary
+                                            key={player.Id}
+                                            playerId={player.Id}
+                                            gameId={this.props.gameId}
+                                            name={player.Name}
+                                            position={player.Position}
+                                            currentWeekPoints={player.CurrentWeekPoints}
+                                            currentWeekStats={player.CurrentWeekStats}
+                                            showStats={player.showStats}
+                                            onShowStatsClick={this.props.onShowStatsClick}
+                                            isUserTeam={true}
+                                        />
+                                    )
+                                }, this)}
+                            </table>
+                        </div>
+                        <div className="game-stats-container">
+                            <table className="table">
+                                <thead className="thead-default">
+                                    <tr>
+                                        <th colSpan={3}>
+                                            <i className="fa fa-user" aria-hidden="true"></i> {this.props.opponentTeamName}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Position</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                {this.props.opponentTeamPlayers.map(function(player, index){
+                                    return(
+                                        <PlayerStatSummary
+                                            key={player.Id}
+                                            playerId={player.Id}
+                                            gameId={this.props.gameId}
+                                            name={player.Name}
+                                            position={player.Position}
+                                            currentWeekPoints={player.CurrentWeekPoints}
+                                            currentWeekStats={player.CurrentWeekStats}
+                                            showStats={player.showStats}
+                                            isEven={index % 2 === 0}
+                                            onShowStatsClick={this.props.onShowStatsClick}
+                                            isUserTeam={false}
+                                        />
+                                    )
+                                }, this)}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

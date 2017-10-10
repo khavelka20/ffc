@@ -3,6 +3,7 @@ import FilterBar from  './FilterBar.js';
 import GameContainer from '../Games/GameContainer.js';
 import SidePanel from './SidePanel.js';
 import Layout from "../Layout/Layout.js";
+import LoadingOverlay from "../Layout/LoadingOverlay.js";
 import { Link } from 'react-router-dom'
 import HomeApi from '../../DataAccess/HomeApi.js';
 import _ from 'underscore';
@@ -11,15 +12,20 @@ export default class Home extends Component{
 
     constructor(){
         super();
+
         this.state = {
             games: [],
             intervalId: null,
-            scoringPlays: []
+            scoringPlays: [],
+            leagues: [],
+            leagueFilter: "All",
+            initialLoad: true
         }
 
         this.onShowStatsClick = this.onShowStatsClick.bind(this);
         this.onShowDetailsClick = this.onShowDetailsClick.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.onLeagueChange = this.onLeagueChange.bind(this);
     }
 
     getGamesShowingDetails(){
@@ -59,6 +65,8 @@ export default class Home extends Component{
         var updatedGames = this.transferStateToUpdatedGames(data.Games);
         this.setState({games: updatedGames});
         this.setState({scoringPlays: data.ScoringPlays});
+        this.setState({leagues: data.Leagues});
+        this.setState({initialLoad: false});
       });
     }
 
@@ -71,6 +79,10 @@ export default class Home extends Component{
     componentWillUnmount() {
         clearInterval(this.state.intervalId);
      }
+
+    onLeagueChange(event){
+        console.log(event.target.value);
+    }
 
     onShowDetailsClick(i){
         var games = this.state.games.slice();
@@ -100,9 +112,15 @@ export default class Home extends Component{
     render(){
         return(
             <Layout>
+                <LoadingOverlay 
+                    show={this.state.initialLoad}
+                />
                 <div className="row">
-                <div className="col-lg-9">
-                    <FilterBar />
+                <div className="col-xl-9">
+                    <FilterBar 
+                        leagues={this.state.leagues}
+                        onLeagueChange={this.onLeagueChange}
+                    />
                     <div id="add-game-bar">
                         <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                     </div>
@@ -112,7 +130,7 @@ export default class Home extends Component{
                         onShowDetailsClick={this.onShowDetailsClick}
                     />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-xl-3">
                     <SidePanel 
                         latestScoringPlays={this.state.scoringPlays}
                     />
