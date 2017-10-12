@@ -145,3 +145,7 @@ table.add-game td{
 .clickable{
   cursor: pointer;
 }
+
+#around-the-league .card{
+  margin-bottom: 15px !important;
+}

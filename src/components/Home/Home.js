@@ -24,6 +24,10 @@ export default class Home extends Component{
                 FilteredTo: "",
                 ScoringSystem:""
             },
+            watchedPlayersViewModel:{
+                Players:[]
+            },
+            showWatchedPlayers:false,
             showTopPlayers: false,
             showLatestScoringPlays: false,
             leagueFilter: "All",
@@ -36,6 +40,7 @@ export default class Home extends Component{
         this.onLeagueChange = this.onLeagueChange.bind(this);
         this.onShowTopPlayersClick = this.onShowTopPlayersClick.bind(this);
         this.onshowLatestScoringPlaysClick = this.onshowLatestScoringPlaysClick.bind(this);
+        this.onShowWatchedPlayersClick = this.onShowWatchedPlayersClick.bind(this);
     }
 
     
@@ -79,6 +84,7 @@ export default class Home extends Component{
         this.setState({leagues: data.Leagues});
         this.setState({topPlayersViewModel: data.TopPlayersViewModel})
         this.setState({initialLoad: false});
+        this.setState({watchedPlayersViewModel: data.WatchedPlayersVM});
       });
     }
 
@@ -102,6 +108,10 @@ export default class Home extends Component{
 
     onshowLatestScoringPlaysClick(){
         this.setState({showLatestScoringPlays : !this.state.showLatestScoringPlays});
+    }
+
+    onShowWatchedPlayersClick(){
+        this.setState({showWatchedPlayers : !this.state.showWatchedPlayers});
     }
 
     onShowDetailsClick(i){
@@ -156,8 +166,11 @@ export default class Home extends Component{
                             topPlayers={this.state.topPlayersViewModel.Players}
                             showTopPlayers={this.state.showTopPlayers}
                             showLatestScoringPlays={this.state.showLatestScoringPlays}
+                            showWatchedPlayers={this.state.showWatchedPlayers}
                             onShowTopPlayersClick={this.onShowTopPlayersClick}
                             onshowLatestScoringPlaysClick={this.onshowLatestScoringPlaysClick}
+                            onShowWatchedPlayersClick={this.onShowWatchedPlayersClick}
+                            watchedPlayers={this.state.watchedPlayersViewModel.Players}
                         />
                     </div>
                 </div>
