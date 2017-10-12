@@ -7,10 +7,16 @@ export default class SidePanel extends Component{
         return(
             <div>
                 <label><strong>Around The League</strong></label>
-                <TopPlayers />
+                <TopPlayers
+                    players={this.props.topPlayers}
+                    show={this.props.showTopPlayers}
+                    onShowTopPlayersClick={this.props.onShowTopPlayersClick}
+                />
                 <br/>
                 <LatestScoringPlays
                     plays={this.props.latestScoringPlays}
+                    show={this.props.showLatestScoringPlays}
+                    onshowLatestScoringPlaysClick={this.props.onshowLatestScoringPlaysClick}
                 />
             </div>
         );

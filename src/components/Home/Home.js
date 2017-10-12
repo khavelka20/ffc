@@ -18,6 +18,14 @@ export default class Home extends Component{
             intervalId: null,
             scoringPlays: [],
             leagues: [],
+            topPlayersViewModel:{
+                Players: [],
+                Filtered: false,
+                FilteredTo: "",
+                ScoringSystem:""
+            },
+            showTopPlayers: false,
+            showLatestScoringPlays: false,
             leagueFilter: "All",
             initialLoad: true
         }
@@ -26,8 +34,11 @@ export default class Home extends Component{
         this.onShowDetailsClick = this.onShowDetailsClick.bind(this);
         this.loadData = this.loadData.bind(this);
         this.onLeagueChange = this.onLeagueChange.bind(this);
+        this.onShowTopPlayersClick = this.onShowTopPlayersClick.bind(this);
+        this.onshowLatestScoringPlaysClick = this.onshowLatestScoringPlaysClick.bind(this);
     }
 
+    
     getGamesShowingDetails(){
         var gamesToShowDetails = _.filter(this.state.games.slice(), (game) =>{
           return game.showDetails;
@@ -66,6 +77,7 @@ export default class Home extends Component{
         this.setState({games: updatedGames});
         this.setState({scoringPlays: data.ScoringPlays});
         this.setState({leagues: data.Leagues});
+        this.setState({topPlayersViewModel: data.TopPlayersViewModel})
         this.setState({initialLoad: false});
       });
     }
@@ -82,6 +94,14 @@ export default class Home extends Component{
 
     onLeagueChange(event){
         console.log(event.target.value);
+    }
+
+    onShowTopPlayersClick(){
+        this.setState({showTopPlayers : !this.state.showTopPlayers});
+    }
+
+    onshowLatestScoringPlaysClick(){
+        this.setState({showLatestScoringPlays : !this.state.showLatestScoringPlays});
     }
 
     onShowDetailsClick(i){
@@ -116,25 +136,30 @@ export default class Home extends Component{
                     show={this.state.initialLoad}
                 />
                 <div className="row">
-                <div className="col-xl-9">
-                    <FilterBar 
-                        leagues={this.state.leagues}
-                        onLeagueChange={this.onLeagueChange}
-                    />
-                    <div id="add-game-bar">
-                        <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
+                    <div className="col-xl-9">
+                        <FilterBar 
+                            leagues={this.state.leagues}
+                            onLeagueChange={this.onLeagueChange}
+                        />
+                        <div id="add-game-bar">
+                            <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
+                        </div>
+                        <GameContainer 
+                            games={this.state.games}
+                            onShowStatsClick={this.onShowStatsClick}
+                            onShowDetailsClick={this.onShowDetailsClick}
+                        />
                     </div>
-                    <GameContainer 
-                        games={this.state.games}
-                        onShowStatsClick={this.onShowStatsClick}
-                        onShowDetailsClick={this.onShowDetailsClick}
-                    />
-                </div>
-                <div className="col-xl-3">
-                    <SidePanel 
-                        latestScoringPlays={this.state.scoringPlays}
-                    />
-                </div>
+                    <div className="col-xl-3">
+                        <SidePanel 
+                            latestScoringPlays={this.state.scoringPlays}
+                            topPlayers={this.state.topPlayersViewModel.Players}
+                            showTopPlayers={this.state.showTopPlayers}
+                            showLatestScoringPlays={this.state.showLatestScoringPlays}
+                            onShowTopPlayersClick={this.onShowTopPlayersClick}
+                            onshowLatestScoringPlaysClick={this.onshowLatestScoringPlaysClick}
+                        />
+                    </div>
                 </div>
             </Layout>
         );

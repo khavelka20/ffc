@@ -126,3 +126,22 @@ table.add-game td{
   font-weight: 600;
   margin-bottom: 10px;
 }
+
+.loading-overlay{
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.7);
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 25vh;
+  text-align: center;
+}
+.hidden{
+  display: none;
+}
+
+.clickable{
+  cursor: pointer;
+}
