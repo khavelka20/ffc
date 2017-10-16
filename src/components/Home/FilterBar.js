@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LeagueOption from './LeagueOption.js';
 
 export default class FilterBar extends Component{
     render(){
@@ -8,12 +9,17 @@ export default class FilterBar extends Component{
                     <div className="col">
                         <div className="form-group">
                             <label><strong>Leauge</strong></label>
-                            <select className="form-control form-control-sm">
+                            <select className="form-control form-control-sm" onChange={this.props.onLeagueChange}>
                                 <option>All</option>
-                                <option>League 1</option>
-                                <option>League 2</option>
-                                <option>League 3</option>
-                                <option>League 4</option>
+                                {this.props.leagues.map((league, index) => {
+                                    return(
+                                        <LeagueOption 
+                                            key={league.Id}
+                                            name={league.Name}
+                                            id={league.Id}
+                                        />
+                                    )
+                                })}
                             </select>
                         </div>
                     </div>

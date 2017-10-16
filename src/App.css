@@ -14,8 +14,8 @@ body {
 }
 
 .show-more{
-  color: #0275d8;
   cursor: pointer;
+  font-size: 12px;
 }
 
 .card.game{
@@ -39,7 +39,7 @@ body {
   cursor: pointer;
 }
 
-.card.game .team-names{
+.card.game .team-names, .small-text{
   font-size: 12px;
 }
 
@@ -113,4 +113,39 @@ table.add-game td{
 
 .btn-toolbar .btn{
   margin-right: 5px;
+}
+
+.game-stats-container{
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  border-radius: .25rem;
+}
+
+.game-stats-header{
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.loading-overlay{
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.7);
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 25vh;
+  text-align: center;
+}
+.hidden{
+  display: none;
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+#around-the-league .card{
+  margin-bottom: 15px !important;
 }
