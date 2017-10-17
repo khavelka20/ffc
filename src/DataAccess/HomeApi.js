@@ -7,26 +7,30 @@ export default {
             .then(function(response) {
                 _.each(response.data.Games, (game) =>{
                     _.each(game.UserTeam.Players, (player)=>{
-                        _.each(player.CurrentWeekStats, (stat) =>{
-                            stat = {
-                                Id : _.uniqueId('stat_'),
-                                Description: stat
-                            }
-                        })
-                    });
+                        player.CurrentWeekStats = this.reformatCurrentWeekStats(player.CurrentWeekStats);
+                    }, this);
                     _.each(game.OpponentTeam.Players, (player)=>{
-                        _.each(player.CurrentWeekStats, (stat) =>{
-                            stat = {
-                                Id : _.uniqueId('stat_'),
-                                Description: stat
-                            }
-                        })
-                    });
-                })
+                        player.CurrentWeekStats = this.reformatCurrentWeekStats(player.CurrentWeekStats);
+                    }, this);
+                }, this)
                 return response.data;
             })
             .catch(function (error) {
 
             });
+    },
+    reformatCurrentWeekStats: function(stats){
+        var response = [];
+
+        _.each(stats, (stat) =>{
+            response.push(
+                {
+                    Id: _.uniqueId('stat_'),
+                    Description: stat
+                }
+            )
+        }, response)
+
+        return response;
     }
 }
