@@ -7,10 +7,20 @@ export default {
             .then(function(response) {
                 _.each(response.data.Games, (game) =>{
                     _.each(game.UserTeam.Players, (player)=>{
-                        player.CurrentWeekStats = [{Id: _.uniqueId('stat_'), Description: "Test Stat 1"}, {Id :_.uniqueId('stat_') , Description: "Test Stat 2"}];
+                        _.each(player.CurrentWeekStats, (stat) =>{
+                            stat = {
+                                Id : _.uniqueId('stat_'),
+                                Description: stat
+                            }
+                        })
                     });
                     _.each(game.OpponentTeam.Players, (player)=>{
-                        player.CurrentWeekStats = [{Id: _.uniqueId('stat_'), Description: "Test Stat 1"}, {Id: _.uniqueId('stat_'), Description: "Test Stat 2"}];
+                        _.each(player.CurrentWeekStats, (stat) =>{
+                            stat = {
+                                Id : _.uniqueId('stat_'),
+                                Description: stat
+                            }
+                        })
                     });
                 })
                 return response.data;
