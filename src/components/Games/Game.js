@@ -19,13 +19,13 @@ export default class Game extends Component{
                                 </div>
                                 <div className="col-5"style={{textAlign: "right"}}>
                                     <span className="text-muted small-text">
-                                        <i className="fa fa-check-square-o" aria-hidden="true"></i> {this.props.playersWeekComplete} of {this.props.playersStarted} players
+                                        <i className="fa fa-check-square-o" aria-hidden="true"></i> {this.props.playersStarted} of {this.props.playersLeftToPlay} players played
                                     </span>
                                 </div>
                             </div>
                             <div>
                                 <span className="text-muted small-text">
-                                    <i className="fa fa-clock-o" aria-hidden="true"></i> Updated {moment(this.props.updatedAt).fromNow()}
+                                    <i className="fa fa-clock-o" aria-hidden="true"></i> Updated {this.props.updatedAt !== null ? moment(this.props.updatedAt).fromNow() : "N/A"}
                                 </span>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ export default class Game extends Component{
                                 <thead className="thead-default">
                                     <tr>
                                         <th colSpan={3}>
-                                            <i className="fa fa-user" aria-hidden="true"></i> {this.props.userTeamName}
+                                            <i className="fa fa-user" aria-hidden="true"></i> {this.props.userTeamName} 
                                         </th>
                                     </tr>
                                 </thead>
@@ -71,6 +71,7 @@ export default class Game extends Component{
                                         <PlayerStatSummary
                                             key={player.Id}
                                             playerId={player.Id}
+                                            teamName={player.TeamName}
                                             gameId={this.props.gameId}
                                             name={player.Name}
                                             position={player.Position}
@@ -105,6 +106,7 @@ export default class Game extends Component{
                                         <PlayerStatSummary
                                             key={player.Id}
                                             playerId={player.Id}
+                                            teamName={player.TeamName}
                                             gameId={this.props.gameId}
                                             name={player.Name}
                                             position={player.Position}

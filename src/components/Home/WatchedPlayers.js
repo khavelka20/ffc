@@ -24,6 +24,7 @@ export default class WatchedPlayers extends Component{
                                         key={player.Id}
                                         name={player.Name}
                                         currentWeekPoints={player.CurrentWeekPoints}
+                                        position={player.Position}
                                     />
                                 )
                             })}

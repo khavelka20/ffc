@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PlayerStatDetails from './PlayerStatDetails.js'
+
 export default class PlayerScoringSummary extends Component{
     render(){
         return(

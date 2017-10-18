@@ -21,7 +21,7 @@ export default class Home extends Component{
             topPlayersViewModel:{
                 Players: [],
                 Filtered: false,
-                FilteredTo: "",
+                FilteredTo: "All",
                 ScoringSystem:""
             },
             watchedPlayersViewModel:{
@@ -30,7 +30,7 @@ export default class Home extends Component{
             showWatchedPlayers:false,
             showTopPlayers: false,
             showLatestScoringPlays: false,
-            leagueFilter: "All",
+            leagueFilter: "",
             initialLoad: true
         }
 
@@ -41,6 +41,7 @@ export default class Home extends Component{
         this.onShowTopPlayersClick = this.onShowTopPlayersClick.bind(this);
         this.onshowLatestScoringPlaysClick = this.onshowLatestScoringPlaysClick.bind(this);
         this.onShowWatchedPlayersClick = this.onShowWatchedPlayersClick.bind(this);
+        this.onTopPlayersFilterChange = this.onTopPlayersFilterChange.bind(this);
     }
 
     
@@ -77,15 +78,20 @@ export default class Home extends Component{
     }
 
     loadData(){
-      HomeApi.requestViewModel().then(data => {
-        var updatedGames = this.transferStateToUpdatedGames(data.Games);
-        this.setState({games: updatedGames});
-        this.setState({scoringPlays: data.ScoringPlays});
-        this.setState({leagues: data.Leagues});
-        this.setState({topPlayersViewModel: data.TopPlayersViewModel})
-        this.setState({initialLoad: false});
-        this.setState({watchedPlayersViewModel: data.WatchedPlayersVM});
-      });
+        var self = this;
+        HomeApi.requestViewModel().then(data => {
+            var updatedGames = this.transferStateToUpdatedGames(data.Games);
+            this.setState({games: updatedGames});
+            this.setState({scoringPlays: data.ScoringPlays});
+            this.setState({leagues: data.Leagues});
+            this.setState({topPlayersViewModel: data.TopPlayersViewModel})
+            this.setState({initialLoad: false});
+            this.setState({watchedPlayersViewModel: data.WatchedPlayersVM});
+        });
+    }
+
+    setDefaults(){
+        let updatedTopPlayersViewModel = this.state.topPlayersViewModel;
     }
 
     componentDidMount(){
@@ -139,6 +145,14 @@ export default class Home extends Component{
         this.setState({games: games});
     }
 
+    onTopPlayersFilterChange(event){
+        var selectedValue = event.target.value;
+        let updatedTopPlayerViewModel = this.state.topPlayersViewModel;
+        updatedTopPlayerViewModel.Filtered = selectedValue !== "All";
+        updatedTopPlayerViewModel.FilteredTo = selectedValue;
+        this.setState({topPlayersViewModel: updatedTopPlayerViewModel});
+    }
+
     render(){
         return(
             <Layout>
@@ -164,6 +178,8 @@ export default class Home extends Component{
                         <SidePanel 
                             latestScoringPlays={this.state.scoringPlays}
                             topPlayers={this.state.topPlayersViewModel.Players}
+                            topPlayersFilter={this.state.topPlayersViewModel.FilteredTo}
+                            onTopPlayersFilterChange={this.onTopPlayersFilterChange}
                             showTopPlayers={this.state.showTopPlayers}
                             showLatestScoringPlays={this.state.showLatestScoringPlays}
                             showWatchedPlayers={this.state.showWatchedPlayers}

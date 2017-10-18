@@ -25,7 +25,7 @@ export default class GameContainer extends Component{
                                       opponentTeamPlayers={game.OpponentTeam.Players}
                                       onShowStatsClick={this.props.onShowStatsClick}
                                       playersStarted={game.UserTeam.PlayersStarted}
-                                      playersWeekComplete={game.UserTeam.PlayersWeekComplete}
+                                      playersLeftToPlay={game.UserTeam.PlayersLeftToPlay}
                                   />
                               );
                       }, this)

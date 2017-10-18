@@ -14,22 +14,67 @@ export default class TopPlayers extends Component{
                         </div>
                     <div id="top-players-filter">
                         <label>
-                            <input className="form-check-input" type="checkbox" /> QB
+                            <input 
+                                name="top-player-filter" 
+                                value="All" 
+                                className="form-radio-input" 
+                                type="radio" 
+                                checked={this.props.filter === "All"}
+                                onChange={this.props.onTopPlayersFilterChange} /> All
                         </label>
                         <label>
-                            <input className="form-check-input" type="checkbox" /> WR
+                            <input 
+                                    name="top-player-filter" 
+                                    value="QB" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "QB"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> QB
                         </label>
                         <label>
-                            <input className="form-check-input" type="checkbox" /> RB
+                            <input 
+                                    name="top-player-filter" 
+                                    value="WR" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "WR"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> WR
                         </label>
                         <label>
-                            <input className="form-check-input" type="checkbox" /> TE
+                            <input 
+                                    name="top-player-filter" 
+                                    value="RB" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "RB"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> RB
                         </label>
                         <label>
-                            <input className="form-check-input" type="checkbox" /> PK
+                            <input 
+                                    name="top-player-filter" 
+                                    value="TE" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "TE"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> TE
                         </label>
                         <label>
-                            <input className="form-check-input" type="checkbox" /> DT
+                            <input 
+                                    name="top-player-filter" 
+                                    value="PK" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "PK"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> PK
+                        </label>
+                        <label>
+                            <input 
+                                    name="top-player-filter" 
+                                    value="DT" 
+                                    className="form-radio-input" 
+                                    type="radio" 
+                                    checked={this.props.filter === "DT"}
+                                    onChange={this.props.onTopPlayersFilterChange} /> DT
                         </label>
                     </div>
                     

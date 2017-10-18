@@ -3,16 +3,17 @@ import _ from 'underscore';
 
 export default {
     requestViewModel: function () {
+        var self = this;
         return axios.get(`http://www.jerrye25.com/api/FFLDashboard/GetDashboardUser/jerry`)
             .then(function(response) {
                 _.each(response.data.Games, (game) =>{
                     _.each(game.UserTeam.Players, (player)=>{
-                        player.CurrentWeekStats = this.reformatCurrentWeekStats(player.CurrentWeekStats);
-                    }, this);
+                        player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                    });
                     _.each(game.OpponentTeam.Players, (player)=>{
-                        player.CurrentWeekStats = this.reformatCurrentWeekStats(player.CurrentWeekStats);
-                    }, this);
-                }, this)
+                        player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                    });
+                })
                 return response.data;
             })
             .catch(function (error) {
