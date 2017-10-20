@@ -72,7 +72,7 @@ export default class Home extends Component{
       _.each(playersSettingState, (playerSettingState) => {
         var playerGettingState = _.findWhere(playersGettingState, {Id: playerSettingState.Id})
         if(playerGettingState){
-          playerGettingState.showPlays = playerSettingState.showPlays;
+          playerGettingState.showStats = playerSettingState.showStats;
         }
       })
     }
@@ -80,18 +80,22 @@ export default class Home extends Component{
     loadData(){
         var self = this;
         HomeApi.requestViewModel().then(data => {
-            var updatedGames = this.transferStateToUpdatedGames(data.Games);
+            var updatedGames = self.transferStateToUpdatedGames(data.Games);
+            var updatedTopPlayersViewModel = self.transferStateToUpdateTopPlayersViewModel(data.TopPlayersViewModel);
             this.setState({games: updatedGames});
             this.setState({scoringPlays: data.ScoringPlays});
             this.setState({leagues: data.Leagues});
-            this.setState({topPlayersViewModel: data.TopPlayersViewModel})
-            this.setState({initialLoad: false});
+            this.setState({topPlayersViewModel: updatedTopPlayersViewModel});
             this.setState({watchedPlayersViewModel: data.WatchedPlayersVM});
+            this.setState({initialLoad: false});
+            console.log(this.state);
         });
     }
 
-    setDefaults(){
-        let updatedTopPlayersViewModel = this.state.topPlayersViewModel;
+    transferStateToUpdateTopPlayersViewModel(updatedTopPlayersViewModel){
+        updatedTopPlayersViewModel.FilteredTo = this.state.topPlayersViewModel.FilteredTo;
+        updatedTopPlayersViewModel.Filtered = this.state.topPlayersViewModel.Filtered;
+        return updatedTopPlayersViewModel;
     }
 
     componentDidMount(){
@@ -102,7 +106,7 @@ export default class Home extends Component{
     
     componentWillUnmount() {
         clearInterval(this.state.intervalId);
-     }
+    }
 
     onLeagueChange(event){
         console.log(event.target.value);
@@ -150,7 +154,21 @@ export default class Home extends Component{
         let updatedTopPlayerViewModel = this.state.topPlayersViewModel;
         updatedTopPlayerViewModel.Filtered = selectedValue !== "All";
         updatedTopPlayerViewModel.FilteredTo = selectedValue;
+        updatedTopPlayerViewModel.Players = this.filterTopPlayers(updatedTopPlayerViewModel.FilteredTo, updatedTopPlayerViewModel.Players);
         this.setState({topPlayersViewModel: updatedTopPlayerViewModel});
+    }
+
+    filterTopPlayers(filter, players){
+        _.each(players, (player) =>{
+            if(filter !== "All"){
+                player.Show = player.Position === filter;   
+            }
+            else{
+                player.Show = true;
+            }
+        });
+
+        return players;
     }
 
     render(){

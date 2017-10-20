@@ -15,6 +15,7 @@ export default class SidePanel extends Component{
                     filter={this.props.topPlayersFilter}
                     onTopPlayersFilterChange={this.props.onTopPlayersFilterChange}
                 />
+                
                 <LatestScoringPlays
                     plays={this.props.latestScoringPlays}
                     show={this.props.showLatestScoringPlays}

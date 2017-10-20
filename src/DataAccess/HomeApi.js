@@ -6,6 +6,9 @@ export default {
         var self = this;
         return axios.get(`http://www.jerrye25.com/api/FFLDashboard/GetDashboardUser/jerry`)
             .then(function(response) {
+                _.each(response.data.TopPlayersViewModel.Players, (player) =>{
+                    player.Show = true;
+                });
                 _.each(response.data.Games, (game) =>{
                     _.each(game.UserTeam.Players, (player)=>{
                         player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);

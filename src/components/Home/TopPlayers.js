@@ -10,7 +10,7 @@ export default class TopPlayers extends Component{
                 </div>    
                 <div className={"card-body" + (!this.props.show ? " hidden" : "")}>
                         <div>
-                            <strong>Limit Players To: </strong>
+                            <strong>Limit Players To: {this.props.filter}</strong>
                         </div>
                     <div id="top-players-filter">
                         <label>
@@ -91,6 +91,7 @@ export default class TopPlayers extends Component{
                         {this.props.players.slice(0, 20).map((player) =>{
                             return(
                                 <TopPlayer
+                                    show={player.Show}
                                     key={player.Id}
                                     name={player.Name}
                                     teamName={player.TeamName}

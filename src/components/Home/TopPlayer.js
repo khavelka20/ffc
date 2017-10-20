@@ -4,7 +4,7 @@ import TeamImage from '../Teams/TeamImage.js';
 export default class TopPlayer extends Component{
     render(){
         return(
-           <tr>
+           <tr className={(this.props.show ? "" : "hidden")}>
                 <td>
                     <TeamImage
                         teamName={this.props.teamName}
