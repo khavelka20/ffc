@@ -28,7 +28,7 @@ export default class Home extends Component{
                 Players:[]
             },
             showWatchedPlayers:false,
-            showTopPlayers: false,
+            showTopPlayers: true,
             showLatestScoringPlays: false,
             leagueFilter: "",
             initialLoad: true
