@@ -7,19 +7,49 @@ export default class Game extends Component{
             <div className="col-xl-6">
                 <div className="card game">
                     <div className="card-header">
-                        <div className="card-title">
-                            {this.props.leagueName}
+                        <div className="card-title"> 
+                            <span className="text-muted small-text">
+                                <i className="fa fa-clock-o" aria-hidden="true"></i> Updated {this.props.updatedAt !== null ? moment(this.props.updatedAt).fromNow() : "N/A"}
+                            </span>
                             <span className={"badge " + (this.props.winning ? 'badge-success' : 'badge-danger') + ' pull-right'}>
                                 {this.props.winning ? 'Winning' : 'Losing'}
                             </span>
-                            <div>
-                                <span className="text-muted small-text">
-                                    <i className="fa fa-clock-o" aria-hidden="true"></i> Updated {this.props.updatedAt !== null ? moment(this.props.updatedAt).fromNow() : "N/A"}
+                            <div className="clear-fix"></div>
+                            <table className="table table-condensed">
+                                <thead className="thead-default">
+                                    <tr>
+                                        <th colSpan={2}>
+                                            {this.props.leagueName} League
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            {this.props.userTeamName}
+                                        </td>
+                                        <td>
+                                            {this.props.userTeamCurrentPoints}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {this.props.opponentTeamName}
+                                        </td>
+                                        <td>
+                                            {this.props.opponentTeamCurrentPoints}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="show-detail" onClick={this.props.onShowDetailsClick}>
+                                <span className="text-primary">
+                                    <i className={"fa fa-chevron-" + (this.props.showDetails ? "up" : "down")}></i> Details
                                 </span>
                             </div>
                         </div>                            
                     </div>
-                    <div className="card-body">
+                    <div className="card-body" hidden={(this.props.showDetails ? ""  : "hidden")}>
                         <div className="row">
                             <div className="col-xl-6">
                                 <div className="game-stats-container">
