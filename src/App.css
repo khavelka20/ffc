@@ -27,6 +27,7 @@ body {
 .show-more{
   cursor: pointer;
   font-size: 12px;
+  text-align: right;
 }
 
 .card.game{
@@ -51,10 +52,6 @@ body {
 
 .card.game .card-title{
   margin-bottom: 0;
-}
-
-.pointer{
-  cursor: pointer;
 }
 
 .card.game tbody{
@@ -122,7 +119,6 @@ table.add-game td{
 
 .game-stats-container{
   border: 1px solid #ddd;
-  margin: 10px 0;
   border-radius: .25rem;
 }
 
@@ -152,4 +148,16 @@ table.add-game td{
 
 #around-the-league .card{
   margin-bottom: 15px !important;
+}
+
+.game-stats-table{
+  margin-top: 1rem;
+}
+
+.player-game-status{
+  padding-right: 5px;
+}
+
+.game-player-stats-table{
+  margin-bottom: 0;
 }

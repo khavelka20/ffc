@@ -16,7 +16,10 @@ export default {
                     _.each(game.OpponentTeam.Players, (player)=>{
                         player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                     });
-                })
+                });
+                _.each(response.data.WatchedPlayersVM.Players, (player) =>{
+                        player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
                 return response.data;
             })
             .catch(function (error) {

@@ -28,7 +28,7 @@ export default class Home extends Component{
                 Players:[]
             },
             showWatchedPlayers:false,
-            showTopPlayers: true,
+            showTopPlayers: false,
             showLatestScoringPlays: false,
             leagueFilter: "",
             initialLoad: true
@@ -42,6 +42,7 @@ export default class Home extends Component{
         this.onshowLatestScoringPlaysClick = this.onshowLatestScoringPlaysClick.bind(this);
         this.onShowWatchedPlayersClick = this.onShowWatchedPlayersClick.bind(this);
         this.onTopPlayersFilterChange = this.onTopPlayersFilterChange.bind(this);
+        this.onShowWatchedPlayerStatsClick = this.onShowWatchedPlayerStatsClick.bind(this);
     }
 
     
@@ -88,7 +89,6 @@ export default class Home extends Component{
             this.setState({topPlayersViewModel: updatedTopPlayersViewModel});
             this.setState({watchedPlayersViewModel: data.WatchedPlayersVM});
             this.setState({initialLoad: false});
-            console.log(this.state);
         });
     }
 
@@ -149,6 +149,18 @@ export default class Home extends Component{
         this.setState({games: games});
     }
 
+    onShowWatchedPlayerStatsClick(playerId){
+        let updatedWatchedPlayersViewModel = this.state.watchedPlayersViewModel;
+
+        var watchedPlayerToShowStats = updatedWatchedPlayersViewModel.Players.filter(function (player, index){
+            return player.Id === playerId;
+        }, playerId);
+
+        watchedPlayerToShowStats[0].showStats = !watchedPlayerToShowStats[0].showStats;
+
+        this.setState({watchedPlayersViewModel: updatedWatchedPlayersViewModel})
+    }
+
     onTopPlayersFilterChange(event){
         var selectedValue = event.target.value;
         let updatedTopPlayerViewModel = this.state.topPlayersViewModel;
@@ -186,6 +198,9 @@ export default class Home extends Component{
                         <div id="add-game-bar">
                             <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                         </div>
+                        <div className="alert alert-primary" role="alert">
+                            The stats provided by this application are not official.
+                        </div>
                         <GameContainer 
                             games={this.state.games}
                             onShowStatsClick={this.onShowStatsClick}
@@ -205,6 +220,7 @@ export default class Home extends Component{
                             onshowLatestScoringPlaysClick={this.onshowLatestScoringPlaysClick}
                             onShowWatchedPlayersClick={this.onShowWatchedPlayersClick}
                             watchedPlayers={this.state.watchedPlayersViewModel.Players}
+                            onShowWatchedPlayerStatsClick={this.onShowWatchedPlayerStatsClick}
                         />
                     </div>
                 </div>

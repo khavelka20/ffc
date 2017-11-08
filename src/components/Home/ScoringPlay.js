@@ -9,7 +9,7 @@ export default class ScoringPlay extends Component{
                     <strong>
                         <i className="fa fa-clock-o" aria-hidden="true"></i> {moment(this.props.createdAt).fromNow()} : 
                     </strong>
-                    {this.props.description}
+                    <span style={{"paddingLeft": "5px"}}>{this.props.description}</span>
                 </td>
             </tr>
         );

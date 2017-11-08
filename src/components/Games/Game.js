@@ -15,10 +15,10 @@ export default class Game extends Component{
                                 {this.props.winning ? 'Winning' : 'Losing'}
                             </span>
                             <div className="clear-fix"></div>
-                            <table className="table table-condensed">
+                            <table className="table game-stats-table">
                                 <thead className="thead-default">
                                     <tr>
-                                        <th colSpan={2}>
+                                        <th colSpan={3}>
                                             {this.props.leagueName} League
                                         </th>
                                     </tr>
@@ -28,16 +28,16 @@ export default class Game extends Component{
                                         <td>
                                             {this.props.userTeamName}
                                         </td>
-                                        <td>
-                                            {this.props.userTeamCurrentPoints}
+                                        <td style={{"textAlign": "center"}}>
+                                            <strong>{Math.round(this.props.userTeamCurrentPoints)}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             {this.props.opponentTeamName}
                                         </td>
-                                        <td>
-                                            {this.props.opponentTeamCurrentPoints}
+                                        <td style={{"textAlign": "center"}}>
+                                            <strong>{Math.round(this.props.opponentTeamCurrentPoints)}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -53,17 +53,12 @@ export default class Game extends Component{
                         <div className="row">
                             <div className="col-xl-6">
                                 <div className="game-stats-container">
-                                    <table className="table">
+                                    <table className="table table-sm game-player-stats-table">
                                         <thead className="thead-default">
                                             <tr>
-                                                <th colSpan={2} className="team-name">
+                                                <th colSpan={4} className="team-name">
                                                     <span>
                                                         <i className="fa fa-user" aria-hidden="true"></i> {this.props.userTeamName}
-                                                    </span>
-                                                </th>
-                                                <th colSpan={1}>
-                                                    <span className="pull-right team-score">
-                                                        {this.props.userTeamCurrentPoints}
                                                     </span>
                                                 </th>
                                             </tr>
@@ -73,6 +68,7 @@ export default class Game extends Component{
                                                 <th>Player</th>
                                                 <th>Position</th>
                                                 <th>Points</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         {this.props.userTeamPlayers
@@ -91,12 +87,29 @@ export default class Game extends Component{
                                                     showStats={player.showStats}
                                                     onShowStatsClick={this.props.onShowStatsClick}
                                                     isUserTeam={true}
+                                                    gameStarted={player.GameStarted}
+                                                    gameEnded={player.GameEnded}
                                                 />
                                             )
                                         }, this)}
                                         <tfoot>
-                                            <tr>
-                                                
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Total Points</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.userTeamCurrentPoints}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Players Yet To Play</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.userTeamPlayersLeftToPlay}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Players Currently Playing</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.userTeamPlayersCurrentlyPlaying}</strong>
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -104,17 +117,12 @@ export default class Game extends Component{
                             </div>
                             <div className="col-xl-6">
                                 <div className="game-stats-container">
-                                    <table className="table">
+                                    <table className="table table-sm game-player-stats-table">
                                         <thead className="thead-default">
                                             <tr>
-                                                <th colSpan={2} className="team-name">
+                                                <th colSpan={4} className="team-name">
                                                     <span>
                                                         {this.props.opponentTeamName}
-                                                    </span>
-                                                </th>
-                                                <th colSpan={1}>
-                                                    <span className="pull-right team-score">
-                                                        {this.props.opponentTeamCurrentPoints}
                                                     </span>
                                                 </th>
                                             </tr>
@@ -124,6 +132,7 @@ export default class Game extends Component{
                                                 <th>Player</th>
                                                 <th>Position</th>
                                                 <th>Points</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         {this.props.opponentTeamPlayers
@@ -143,12 +152,29 @@ export default class Game extends Component{
                                                     isEven={index % 2 === 0}
                                                     onShowStatsClick={this.props.onShowStatsClick}
                                                     isUserTeam={false}
+                                                    gameStarted={player.GameStarted}
+                                                    gameEnded={player.GameEnded}
                                                 />
                                             )
                                         }, this)}
                                         <tfoot>
-                                            <tr>
-
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Total Points</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.opponentTeamCurrentPoints}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Players Yet To Play</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.opponentTeamPlayersLeftToPlay}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr className="table-active">
+                                                <td colSpan={2}>Players Currently Playing</td>
+                                                <td colSpan={2}>
+                                                    <strong>{this.props.opponentTeamPlayersCurrentlyPlaying}</strong>
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
