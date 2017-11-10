@@ -6,7 +6,7 @@ export default class TopPlayers extends Component{
         return(
             <div className="card">
                 <div className="card-header clickable" onClick={this.props.onShowTopPlayersClick}>
-                    <i className={"fa fa-chevron-" + (this.props.show ? "up" : "down")}></i> Top Players <span className="badge badge-dark">20</span>
+                    <i className={"fa fa-chevron-" + (this.props.show ? "up" : "down")}></i> Top Players <span className="badge badge-dark">{this.props.players.length}</span>
                 </div>    
                 <div className={"card-body" + (!this.props.show ? " hidden" : "")}>
                         <div>
@@ -78,29 +78,32 @@ export default class TopPlayers extends Component{
                         </label>
                     </div>
                     
-                    <table className="table table-striped">
+                    <table className="table">
                     <thead>
                     <tr>
                         <th>Team</th>
                         <th>Player</th>
                         <th>Position</th>
                         <th>Points</th>
+                        <th></th>
                     </tr>
                     </thead>
-                    <tbody>
                         {this.props.players.slice(0, 20).map((player) =>{
                             return(
                                 <TopPlayer
                                     show={player.Show}
                                     key={player.Id}
+                                    playerId={player.Id}
                                     name={player.Name}
                                     teamName={player.TeamName}
                                     position={player.Position}
                                     currentWeekPoints={player.CurrentWeekPoints}
+                                    currentWeekStats={player.CurrentWeekStats}
+                                    onShowTopPlayerStatsClick={this.props.onShowTopPlayerStatsClick}
+                                    showStats={player.showStats}
                                 />
                             )
                         })}
-                    </tbody>
                     </table>
                 </div>
             </div>

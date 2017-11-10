@@ -20,6 +20,7 @@ export default class SidePanel extends Component{
                     onShowTopPlayersClick={this.props.onShowTopPlayersClick}
                     filter={this.props.topPlayersFilter}
                     onTopPlayersFilterChange={this.props.onTopPlayersFilterChange}
+                    onShowTopPlayerStatsClick={this.props.onShowTopPlayerStatsClick}
                 />
                 
                 <LatestScoringPlays

@@ -18,7 +18,28 @@ export default {
                     });
                 });
                 _.each(response.data.WatchedPlayersVM.Players, (player) =>{
-                        player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.Players, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersDT, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersPK, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersQB, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersRB, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersTE, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
+                });
+                _.each(response.data.TopPlayersViewModel.PlayersWR, (player) =>{
+                    player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
                 return response.data;
             })
