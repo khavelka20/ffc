@@ -15,6 +15,7 @@ export default class Home extends Component{
 
         this.state = {
             games: [],
+            compactMode: true,
             intervalId: null,
             scoringPlays: [],
             leagues: [],
@@ -44,6 +45,7 @@ export default class Home extends Component{
         this.onTopPlayersFilterChange = this.onTopPlayersFilterChange.bind(this);
         this.onShowWatchedPlayerStatsClick = this.onShowWatchedPlayerStatsClick.bind(this);
         this.onShowTopPlayerStatsClick = this.onShowTopPlayerStatsClick.bind(this);
+        this.onChangeCompactModeClick = this.onChangeCompactModeClick.bind(this);
     }
     
     getGamesShowingDetails(){
@@ -192,11 +194,16 @@ export default class Home extends Component{
         this.setState({topPlayersViewModel: updatedTopPlayersViewModel});
     }
 
+    onChangeCompactModeClick(event){
+        this.setState({compactMode : !this.state.compactMode});
+    }
+
     showPlayers(players){
         players.map((player) =>{
             player.Show = true;
         })
     }
+    
     getTopPlayersList(filter, topPlayersViewModel){
         var topPlayersList = [];
 
@@ -216,17 +223,12 @@ export default class Home extends Component{
                 />
                 <div className="row">
                     <div className="col-xl-9">
-                        <FilterBar 
-                            leagues={this.state.leagues}
-                            onLeagueChange={this.onLeagueChange}
-                        />
                         <div id="add-game-bar">
                             <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                         </div>
-                        <div className="alert alert-primary" role="alert">
-                            The stats provided by this application are not official.
-                        </div>
                         <GameContainer 
+                            compactMode={this.state.compactMode}
+                            onChangeCompactModeClick={this.onChangeCompactModeClick}
                             games={this.state.games}
                             onShowStatsClick={this.onShowStatsClick}
                             onShowDetailsClick={this.onShowDetailsClick}

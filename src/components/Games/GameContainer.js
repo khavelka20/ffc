@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import Game from './Game.js'
+import Game from './Game.js';
+import CondensedGame from './CondensedGame.js';
 
 export default class GameContainer extends Component{
     render(){
         return(
           <div>
-              <div className="row">
+                <label>
+                    <input 
+                        name="top-player-filter" 
+                        value="DT" 
+                        className="form-radio-input" 
+                        type="checkbox" 
+                        checked={this.props.compactMode}
+                        onChange={this.props.onChangeCompactModeClick}/> Compact Mode
+                </label>
+              <div className="row" hidden={this.props.compactMode}>
                   {
                       this.props.games.map(function(game, index){
                           return (
@@ -33,6 +43,38 @@ export default class GameContainer extends Component{
                               );
                       }, this)
                   }
+              </div>
+              <div className="row" style={{"marginBottom": "10px"}} hidden={!this.props.compactMode}>
+                  <div className="col-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>League</th>
+                                        <th>You</th>
+                                        <th>Them</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.props.games.map(function(game, index){
+                                        return(
+                                            <CondensedGame
+                                                key={game.Id}
+                                                leagueName={game.League.Name}
+                                                winning={game.UserIsWinning}
+                                                userTeamCurrentPoints={game.UserTeam.CurrentPoints}
+                                                opponentTeamCurrentPoints={game.OpponentTeam.CurrentPoints}
+                                                gameId = {game.Id}
+                                            />
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  </div>
               </div>
             </div>
         );
