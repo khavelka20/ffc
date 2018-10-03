@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
 
-    requestGames: function () {
+    requestViewModel: function () {
         return axios.get(`http://localhost:3000/data/games.json`)
             .then(wait(500)).then(function (response) {
                 return (response.data);

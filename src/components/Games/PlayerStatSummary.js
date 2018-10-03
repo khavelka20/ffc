@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PlayerStatDetails from './PlayerStatDetails.js'
 import PlayerGameStatus from './PlayerGameStatus.js';
-
+import Format from './../../Helpers/Formatters.js';
 export default class PlayerScoringSummary extends Component{
     render(){
         return(
@@ -18,7 +18,7 @@ export default class PlayerScoringSummary extends Component{
                     {this.props.position}
                 </td>
                 <td>
-                    {Math.round(this.props.currentWeekPoints)}
+                    {Format.defaultScore(this.props.currentWeekPoints)}
                 </td>
                 <td>
                     <i className={"fa fa-chevron-" + (this.props.showStats ? "up" : "down") + " show-more"}></i>

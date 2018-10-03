@@ -18,7 +18,8 @@ export default class WatchedPlayers extends Component{
                                 <th></th>
                             </tr>
                         </thead>
-                            {this.props.players.map((player) =>{
+                            {this.props.players
+                            .map((player) =>{
                                 return(
                                     <WatchedPlayer
                                         key={player.Id}

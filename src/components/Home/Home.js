@@ -91,6 +91,20 @@ export default class Home extends Component{
             var updatedGames = self.transferStateToUpdatedGames(data.Games);
             var updatedTopPlayersViewModel = self.transferStateToUpdatedTopPlayersViewModel(data.TopPlayersViewModel);
             var updatedWatchedPlayersViewModel = self.transferStateToWatchedPlayersViewModel(data.WatchedPlayersVM);
+            
+            updatedGames.sort(function(a, b) {
+                return a.League.SortOrder > b.League.SortOrder;
+            });
+
+            _.each(updatedGames, (game) =>{
+                game.UserTeam.Players.sort(function(a, b){
+                    return a.PositionNumber > b.PositionNumber;
+                });
+            })
+
+            updatedWatchedPlayersViewModel.Players.sort(function(a,b){
+                return a.PositionNumber > b.PositionNumber;
+            });
             this.setState({games: updatedGames});
             this.setState({scoringPlays: data.ScoringPlays});
             this.setState({leagues: data.Leagues});

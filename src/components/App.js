@@ -5,6 +5,7 @@ import AddLeague from './Leagues/Add/AddLeague.js';
 
 import { BrowserRouter , Route , Switch} from 'react-router-dom'
 import '../App.css';
+import '../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
 
 export default class App extends Component {
   render() {

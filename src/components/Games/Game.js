@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PlayerStatSummary from './PlayerStatSummary.js'
 import moment from 'moment';
+import Format from './../../Helpers/Formatters.js';
 export default class Game extends Component{
     render(){
         return(
@@ -29,7 +30,7 @@ export default class Game extends Component{
                                             {this.props.userTeamName}
                                         </td>
                                         <td style={{"textAlign": "center"}}>
-                                            <strong>{Math.round(this.props.userTeamCurrentPoints)}</strong>
+                                            <strong>{Format.defaultScore(this.props.userTeamCurrentPoints)}</strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -37,7 +38,7 @@ export default class Game extends Component{
                                             {this.props.opponentTeamName}
                                         </td>
                                         <td style={{"textAlign": "center"}}>
-                                            <strong>{Math.round(this.props.opponentTeamCurrentPoints)}</strong>
+                                            <strong>{Format.defaultScore(this.props.opponentTeamCurrentPoints)}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -72,7 +73,6 @@ export default class Game extends Component{
                                             </tr>
                                         </thead>
                                         {this.props.userTeamPlayers
-                                        .sort((a, b) => a.PositionNumber > b.PositionNumber)
                                         .map(function(player, index){
                                             return(
                                                 <PlayerStatSummary
@@ -136,7 +136,6 @@ export default class Game extends Component{
                                             </tr>
                                         </thead>
                                         {this.props.opponentTeamPlayers
-                                            .sort((a, b) => a.PositionNumber > b.PositionNumber)
                                             .map(function(player, index){
                                             return(
                                                 <PlayerStatSummary

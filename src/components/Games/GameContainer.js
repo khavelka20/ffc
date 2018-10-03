@@ -6,18 +6,23 @@ export default class GameContainer extends Component{
     render(){
         return(
           <div>
-                <label>
+                <div className="form-check abc-checkbox abc-checkbox-success">
                     <input 
-                        name="top-player-filter" 
-                        value="DT" 
-                        className="form-radio-input" 
+                        id="compactMode"
                         type="checkbox" 
+                        className="form-check-input"
+                        name="compact-mode" 
+                        value="compact"
                         checked={this.props.compactMode}
-                        onChange={this.props.onChangeCompactModeClick}/> Compact Mode
-                </label>
-              <div className="row" hidden={this.props.compactMode}>
+                        onChange={this.props.onChangeCompactModeClick}/> 
+                        <label className="form-check-label" htmlFor="compactMode">
+                            Compact Mode
+                        </label>
+                </div>               
+                <div className="row" hidden={this.props.compactMode}>
                   {
-                      this.props.games.map(function(game, index){
+                      this.props.games
+                      .map(function(game, index){
                           return (
                                   <Game
                                       key={game.Id}
@@ -43,7 +48,7 @@ export default class GameContainer extends Component{
                               );
                       }, this)
                   }
-              </div>
+                </div>
               <div className="row" style={{"marginBottom": "10px"}} hidden={!this.props.compactMode}>
                   <div className="col-12">
                     <div className="card">
