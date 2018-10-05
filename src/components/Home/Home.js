@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FilterBar from  './FilterBar.js';
 import GameContainer from '../Games/GameContainer.js';
 import SidePanel from './SidePanel.js';
 import Layout from "../Layout/Layout.js";
@@ -8,9 +7,9 @@ import { Link } from 'react-router-dom'
 import HomeApi from '../../DataAccess/HomeApi.js';
 import _ from 'underscore';
 
-export default class Home extends Component{
+class Home extends Component {
 
-    constructor(){
+    constructor() {
         super();
 
         this.state = {
@@ -19,16 +18,16 @@ export default class Home extends Component{
             intervalId: null,
             scoringPlays: [],
             leagues: [],
-            topPlayersViewModel:{
+            topPlayersViewModel: {
                 PlayersToDisplay: [],
                 Filtered: false,
                 FilteredTo: "All",
-                ScoringSystem:""
+                ScoringSystem: ""
             },
-            watchedPlayersViewModel:{
-                Players:[]
+            watchedPlayersViewModel: {
+                Players: []
             },
-            showWatchedPlayers:false,
+            showWatchedPlayers: false,
             showTopPlayers: false,
             showLatestScoringPlays: false,
             leagueFilter: "",
@@ -47,79 +46,88 @@ export default class Home extends Component{
         this.onShowTopPlayerStatsClick = this.onShowTopPlayerStatsClick.bind(this);
         this.onChangeCompactModeClick = this.onChangeCompactModeClick.bind(this);
     }
-    
-    getGamesShowingDetails(){
-        var gamesToShowDetails = _.filter(this.state.games.slice(), (game) =>{
-          return game.showDetails;
+
+    getGamesShowingDetails() {
+        var gamesToShowDetails = _.filter(this.state.games.slice(), (game) => {
+            return game.showDetails;
         });
 
         return gamesToShowDetails;
     }
 
-    transferStateToUpdatedGames(updatedGames){
+    transferStateToUpdatedGames(updatedGames) {
         var gamesShowingDetails = this.getGamesShowingDetails();
 
         _.each(gamesShowingDetails, (gameShowingDetails) => {
-            var gameToGetState = _.findWhere(updatedGames, {Id: gameShowingDetails.Id});
-            if(gameToGetState){
-              gameToGetState.showDetails = true;
-              this.transerStateToPlayers(gameShowingDetails.UserTeam.Players, gameToGetState.UserTeam.Players);
-              this.transerStateToPlayers(gameShowingDetails.OpponentTeam.Players, gameToGetState.OpponentTeam.Players);
+            var gameToGetState = _.findWhere(updatedGames, { Id: gameShowingDetails.Id });
+            if (gameToGetState) {
+                gameToGetState.showDetails = true;
+                this.transerStateToPlayers(gameShowingDetails.UserTeam.Players, gameToGetState.UserTeam.Players);
+                this.transerStateToPlayers(gameShowingDetails.OpponentTeam.Players, gameToGetState.OpponentTeam.Players);
             }
         }, this);
 
         return updatedGames;
     }
 
-    transerStateToPlayers(playersSettingState, playersGettingState){
-      _.each(playersSettingState, (playerSettingState) => {
-        var playerGettingState = _.findWhere(playersGettingState, {Id: playerSettingState.Id})
-        if(playerGettingState){
-          playerGettingState.showStats = playerSettingState.showStats;
-        }
-      })
+    transerStateToPlayers(playersSettingState, playersGettingState) {
+        _.each(playersSettingState, (playerSettingState) => {
+            var playerGettingState = _.findWhere(playersGettingState, { Id: playerSettingState.Id })
+            if (playerGettingState) {
+                playerGettingState.showStats = playerSettingState.showStats;
+            }
+        })
     }
 
-    transferStateToWatchedPlayersViewModel(updatedWatchedPlayersViewModel){
+    transferStateToWatchedPlayersViewModel(updatedWatchedPlayersViewModel) {
         this.transerStateToPlayers(this.state.watchedPlayersViewModel.Players, updatedWatchedPlayersViewModel.Players);
         return updatedWatchedPlayersViewModel;
     }
 
-    loadData(){
-        var self = this;
-        HomeApi.requestViewModel().then(data => {
-            var updatedGames = self.transferStateToUpdatedGames(data.Games);
-            var updatedTopPlayersViewModel = self.transferStateToUpdatedTopPlayersViewModel(data.TopPlayersViewModel);
-            var updatedWatchedPlayersViewModel = self.transferStateToWatchedPlayersViewModel(data.WatchedPlayersVM);
-            
-            updatedGames.sort(function(a, b) {
-                return a.League.SortOrder > b.League.SortOrder;
-            });
+    sortGames(sortPlayers, games) {
+        var updatedGames = this.transferStateToUpdatedGames(games);
 
-            _.each(updatedGames, (game) =>{
-                game.UserTeam.Players.sort(function(a, b){
+        updatedGames.sort(function (a, b) {
+            return a.League.SortOrder - b.League.SortOrder;
+        });
+
+        if (sortPlayers) {
+            _.each(updatedGames, (game) => {
+                game.UserTeam.Players.sort(function (a, b) {
                     return a.PositionNumber > b.PositionNumber;
                 });
-            })
+            });
+        };
 
-            updatedWatchedPlayersViewModel.Players.sort(function(a,b){
+        this.setState({ games: updatedGames });
+    }
+
+    loadData() {
+        var self = this;
+        HomeApi.requestViewModel().then(data => {
+            var updatedTopPlayersViewModel = self.transferStateToUpdatedTopPlayersViewModel(data.TopPlayersViewModel);
+            var updatedWatchedPlayersViewModel = self.transferStateToWatchedPlayersViewModel(data.WatchedPlayersVM);
+
+            this.sortGames(true, data.Games);
+
+            updatedWatchedPlayersViewModel.Players.sort(function (a, b) {
                 return a.PositionNumber > b.PositionNumber;
             });
-            this.setState({games: updatedGames});
-            this.setState({scoringPlays: data.ScoringPlays});
-            this.setState({leagues: data.Leagues});
-            this.setState({topPlayersViewModel: updatedTopPlayersViewModel});
-            this.setState({watchedPlayersViewModel: updatedWatchedPlayersViewModel});
-            this.setState({initialLoad: false});
+
+            this.setState({ scoringPlays: data.ScoringPlays });
+            this.setState({ leagues: data.Leagues });
+            this.setState({ topPlayersViewModel: updatedTopPlayersViewModel });
+            this.setState({ watchedPlayersViewModel: updatedWatchedPlayersViewModel });
+            this.setState({ initialLoad: false });
         });
     }
 
-    transferStateToUpdatedTopPlayersViewModel(updatedTopPlayersViewModel){
+    transferStateToUpdatedTopPlayersViewModel(updatedTopPlayersViewModel) {
         updatedTopPlayersViewModel.FilteredTo = this.state.topPlayersViewModel.FilteredTo;
         updatedTopPlayersViewModel.Filtered = this.state.topPlayersViewModel.Filtered;
         updatedTopPlayersViewModel.PlayersToDisplay = this.getTopPlayersList(updatedTopPlayersViewModel.FilteredTo, updatedTopPlayersViewModel);
         this.showPlayers(updatedTopPlayersViewModel.PlayersToDisplay);
-        if(!this.state.topPlayersViewModel.Filtered)
+        if (!this.state.topPlayersViewModel.Filtered)
             this.transerStateToPlayers(this.state.topPlayersViewModel.PlayersToDisplay, updatedTopPlayersViewModel.Players);
         else
             this.transerStateToPlayers(
@@ -128,100 +136,100 @@ export default class Home extends Component{
         return updatedTopPlayersViewModel;
     }
 
-    componentDidMount(){
+    componentDidMount() {
         var intervalId = setInterval(() => { this.loadData(); }, 30000);
-        this.setState({intervalId : intervalId});
+        this.setState({ intervalId: intervalId });
         this.loadData()
     }
-    
+
     componentWillUnmount() {
         clearInterval(this.state.intervalId);
     }
 
-    onLeagueChange(event){
+    onLeagueChange(event) {
         console.log(event.target.value);
     }
 
-    onShowTopPlayersClick(){
-        this.setState({showTopPlayers : !this.state.showTopPlayers});
+    onShowTopPlayersClick() {
+        this.setState({ showTopPlayers: !this.state.showTopPlayers });
     }
 
-    onshowLatestScoringPlaysClick(){
-        this.setState({showLatestScoringPlays : !this.state.showLatestScoringPlays});
+    onshowLatestScoringPlaysClick() {
+        this.setState({ showLatestScoringPlays: !this.state.showLatestScoringPlays });
     }
 
-    onShowWatchedPlayersClick(){
-        this.setState({showWatchedPlayers : !this.state.showWatchedPlayers});
+    onShowWatchedPlayersClick() {
+        this.setState({ showWatchedPlayers: !this.state.showWatchedPlayers });
     }
 
-    onShowDetailsClick(i){
+    onShowDetailsClick(i) {
         var games = this.state.games.slice();
         var game = games[i];
         game.showDetails = !game.showDetails;
-        this.setState({games: games});
+        this.setState({ games: games });
     }
 
-    onShowTopPlayerStatsClick(playerId){
+    onShowTopPlayerStatsClick(playerId) {
         let updatedTopPlayersViewModel = this.state.topPlayersViewModel;
-        if(!this.state.topPlayersViewModel.Filtered)
+        if (!this.state.topPlayersViewModel.Filtered)
             this.showPlayerStats(playerId, updatedTopPlayersViewModel.Players);
         else
-        this.showPlayerStats(playerId, updatedTopPlayersViewModel["Players" + this.state.topPlayersViewModel.FilteredTo]);
-        this.setState({topPlayersViewModel: updatedTopPlayersViewModel})
+            this.showPlayerStats(playerId, updatedTopPlayersViewModel["Players" + this.state.topPlayersViewModel.FilteredTo]);
+        this.setState({ topPlayersViewModel: updatedTopPlayersViewModel })
     }
 
-    onShowStatsClick(_gameId, _playerId, _isUserTeam){
+    onShowStatsClick(_gameId, _playerId, _isUserTeam) {
         var games = this.state.games.slice();
-        
-        var game = games.filter(function(game, index){
+
+        var game = games.filter(function (game, index) {
             return game.Id === _gameId
         }, _gameId)
 
         var players = _isUserTeam ? game[0].UserTeam.Players : game[0].OpponentTeam.Players;
 
         this.showPlayerStats(_playerId, players);
-        
-        this.setState({games: games});
+
+        this.setState({ games: games });
     }
 
-    onShowWatchedPlayerStatsClick(playerId){
+    onShowWatchedPlayerStatsClick(playerId) {
         let updatedWatchedPlayersViewModel = this.state.watchedPlayersViewModel;
         this.showPlayerStats(playerId, updatedWatchedPlayersViewModel.Players);
-        this.setState({watchedPlayersViewModel: updatedWatchedPlayersViewModel})
+        this.setState({ watchedPlayersViewModel: updatedWatchedPlayersViewModel })
     }
 
-    showPlayerStats(playerId, playerList){
-        var playerToShowStats = playerList.filter((player, index) =>{
+    showPlayerStats(playerId, playerList) {
+        var playerToShowStats = playerList.filter((player, index) => {
             return player.Id === playerId
         }, playerId)
 
         playerToShowStats[0].showStats = !playerToShowStats[0].showStats;
     }
 
-    onTopPlayersFilterChange(event){
+    onTopPlayersFilterChange(event) {
         var selectedValue = event.target.value;
         let updatedTopPlayersViewModel = this.state.topPlayersViewModel;
         updatedTopPlayersViewModel.Filtered = selectedValue !== "All";
         updatedTopPlayersViewModel.FilteredTo = selectedValue;
         updatedTopPlayersViewModel.PlayersToDisplay = this.getTopPlayersList(updatedTopPlayersViewModel.FilteredTo, updatedTopPlayersViewModel);
         this.showPlayers(updatedTopPlayersViewModel.PlayersToDisplay);
-        this.setState({topPlayersViewModel: updatedTopPlayersViewModel});
+        this.setState({ topPlayersViewModel: updatedTopPlayersViewModel });
     }
 
-    onChangeCompactModeClick(event){
-        this.setState({compactMode : !this.state.compactMode});
+    onChangeCompactModeClick(event) {
+        this.setState({ compactMode: !this.state.compactMode });
     }
 
-    showPlayers(players){
-        players.map((player) =>{
+    showPlayers(players) {
+        players.map((player) => {
             player.Show = true;
         })
     }
-    
-    getTopPlayersList(filter, topPlayersViewModel){
+
+    getTopPlayersList(filter, topPlayersViewModel) {
         var topPlayersList = [];
 
-        if(filter === "All")
+        if (filter === "All")
             topPlayersList = topPlayersViewModel.Players;
         else
             topPlayersList = topPlayersViewModel["Players" + filter];
@@ -229,10 +237,14 @@ export default class Home extends Component{
         return topPlayersList;
     }
 
-    render(){
-        return(
+    onSortEnd() {
+        this.sortGames(false, this);
+    }
+
+    render() {
+        return (
             <Layout>
-                <LoadingOverlay 
+                <LoadingOverlay
                     show={this.state.initialLoad}
                 />
                 <div className="row">
@@ -240,7 +252,8 @@ export default class Home extends Component{
                         <div id="add-game-bar">
                             <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                         </div>
-                        <GameContainer 
+                        <GameContainer
+                            onSortEnd={this.onSortEnd}
                             compactMode={this.state.compactMode}
                             onChangeCompactModeClick={this.onChangeCompactModeClick}
                             games={this.state.games}
@@ -249,7 +262,7 @@ export default class Home extends Component{
                         />
                     </div>
                     <div className="col-xl-3">
-                        <SidePanel 
+                        <SidePanel
                             latestScoringPlays={this.state.scoringPlays}
                             topPlayers={this.state.topPlayersViewModel.PlayersToDisplay}
                             topPlayersFilter={this.state.topPlayersViewModel.FilteredTo}
@@ -270,3 +283,5 @@ export default class Home extends Component{
         );
     }
 }
+
+export default Home;

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
 
-export default class CondensedGame extends Component{
-    render(){
-        return(
-            <tr>
+class CondensedGame extends Component {
+    render() {
+        return (
+            <React.Fragment>
+                <td><i className="fa fa-bars clickable" onClick={this.props.moveElement}></i></td>
                 <td>{this.props.leagueName}</td>
                 <td>{this.props.userTeamCurrentPoints}</td>
                 <td>{this.props.opponentTeamCurrentPoints}</td>
@@ -14,8 +13,10 @@ export default class CondensedGame extends Component{
                         {this.props.winning ? 'Winning' : 'Losing'}
                     </span>
                 </td>
-                
-            </tr>
+                <td>{this.props.sortOrder}</td>
+            </React.Fragment>
         )
     }
 }
+
+export default CondensedGame;
