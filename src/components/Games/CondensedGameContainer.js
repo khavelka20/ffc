@@ -32,6 +32,7 @@ class CondensedGameContainer extends Component {
 
     onDragOver(ev){
         ev.preventDefault();
+        let 
     }
     render() {
         return (
