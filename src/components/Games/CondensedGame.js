@@ -4,7 +4,7 @@ class CondensedGame extends Component {
     render() {
         return (
             <React.Fragment>
-                <td><i className="fa fa-bars clickable" onClick={this.props.moveElement}></i></td>
+                <td><i className="fa fa-bars clickable" onMouseDown={this.props.onDragComponent}></i></td>
                 <td>{this.props.leagueName}</td>
                 <td>{this.props.userTeamCurrentPoints}</td>
                 <td>{this.props.opponentTeamCurrentPoints}</td>

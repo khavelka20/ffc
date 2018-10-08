@@ -2,27 +2,52 @@ import React, { Component } from 'react';
 import CondensedGame from './CondensedGame';
 
 class CondensedGameContainer extends Component {
-    
-    constructor(){
+
+    constructor() {
         super();
 
         this.state = {
-            isDraggable: false
+            isDraggable: false,
+            isDragging: false
         }
-    }
-    
-    dragComponent(){
-        this.setState({isDraggable: true});
+
+        this.onDragComponent = this.onDragComponent.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
+        this.onDragOver = this.onDragOver.bind(this);
     }
 
+    onDragComponent() {
+        this.setState({ isDraggable: true });
+    }
+
+    onDragStart(ev) {
+        console.log(ev);
+        this.setState({ isDragging: true });
+    }
+
+    onDragEnd() {
+        this.setState({ isDragging: false });
+    }
+
+    onDragOver(ev){
+        ev.preventDefault();
+    }
     render() {
         return (
-            <tr draggable={this.state.isDraggable}>
+            <tr
+                draggable={this.state.isDraggable}
+                className={this.state.isDragging ? 'bg-warning' : ''}
+                onDragStart={this.onDragStart}
+                onDragEnd={this.onDragEnd}
+                onDragOver={this.onDragOver}
+                >
                 <CondensedGame
+                    onDragComponent={this.onDragComponent}
                     leagueName={this.props.leagueName}
                     userTeamCurrentPoints={this.props.userTeamCurrentPoints}
                     opponentTeamCurrentPoints={this.props.opponentTeamCurrentPoints}
-                    winning={this.props.winning}/>
+                    winning={this.props.winning} />
             </tr>
         )
     }
