@@ -15,33 +15,40 @@ class CondensedGameContainer extends Component {
         this.onDragStart = this.onDragStart.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     onDragComponent() {
         this.setState({ isDraggable: true });
     }
 
-    onDragStart(ev) {
-        console.log(ev);
+    onDragStart(ev, id) {
         this.setState({ isDragging: true });
+        ev.dataTransfer.setData("text/plain", id);
     }
 
     onDragEnd() {
         this.setState({ isDragging: false });
     }
 
-    onDragOver(ev){
+    onDrop(ev){
+
+    }
+
+    onDragOver(ev, id){
         ev.preventDefault();
-        let 
+        let sourceId = ev.dataTransfer.getData("id");
+        console.log(`Id : ${sourceId}`);
     }
     render() {
         return (
             <tr
                 draggable={this.state.isDraggable}
                 className={this.state.isDragging ? 'bg-warning' : ''}
-                onDragStart={this.onDragStart}
+                onDragStart={(e) => this.onDragStart(e, this.props.gameId)}
                 onDragEnd={this.onDragEnd}
-                onDragOver={this.onDragOver}
+                onDragOver={(e) => this.onDragOver(e, this.props.gameId)}
+                onDrop={this.onDrop}
                 >
                 <CondensedGame
                     onDragComponent={this.onDragComponent}
