@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CondensedGame from './CondensedGame';
+import classNames from 'classnames';
 
 class CondensedGameContainer extends Component {
 
@@ -8,7 +9,8 @@ class CondensedGameContainer extends Component {
 
         this.state = {
             isDraggable: false,
-            isDragging: false
+            isDragging: false,
+            isEntered: false
         }
 
         this.onDragComponent = this.onDragComponent.bind(this);
@@ -16,6 +18,8 @@ class CondensedGameContainer extends Component {
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.onDragEnter = this.onDragEnter.bind(this);
+        this.onDragExit = this.onDragExit.bind(this);
     }
 
     onDragComponent() {
@@ -24,7 +28,7 @@ class CondensedGameContainer extends Component {
 
     onDragStart(ev, id) {
         this.setState({ isDragging: true });
-        ev.dataTransfer.setData("text/plain", id);
+        ev.dataTransfer.setData("id", id);
     }
 
     onDragEnd() {
@@ -32,25 +36,47 @@ class CondensedGameContainer extends Component {
     }
 
     onDrop(ev){
-
-    }
-
-    onDragOver(ev, id){
-        ev.preventDefault();
         let sourceId = ev.dataTransfer.getData("id");
-        console.log(`Id : ${sourceId}`);
+        this.props.afterGameDropped(this.props.gameId, sourceId);
+        this.setState({isEntered : false});
+        this.setState({isDraggable : false});
+        this.setState({isDragging : false}, () =>{
+            console.log('isEntered : ' + this.state.isEntered);
+            console.log('isDraggable : ' + this.state.isDraggable);
+            console.log('isDragging : ' + this.state.isDragging);
+        });
     }
+
+    onDragEnter(){
+        this.setState({isEntered : true});
+    }
+
+    onDragExit(){
+        this.setState({isEntered : false});
+    }
+    onDragOver(ev){
+        ev.preventDefault();
+    }
+
     render() {
+        var trClass = classNames({
+            'dragging': this.state.isDragging,
+            'isEntered': this.state.isEntered,
+            '': !this.state.isDragging && !this.state.isEntered
+        });
+
         return (
             <tr
                 draggable={this.state.isDraggable}
-                className={this.state.isDragging ? 'bg-warning' : ''}
+                className={trClass}
                 onDragStart={(e) => this.onDragStart(e, this.props.gameId)}
                 onDragEnd={this.onDragEnd}
-                onDragOver={(e) => this.onDragOver(e, this.props.gameId)}
+                onDragOver={(e) => this.onDragOver(e)}
                 onDrop={this.onDrop}
-                >
+                onDragEnter={this.onDragEnter}
+                onDragExit={this.onDragExit}>
                 <CondensedGame
+                    sortOrder={this.props.sortOrder}
                     onDragComponent={this.onDragComponent}
                     leagueName={this.props.leagueName}
                     userTeamCurrentPoints={this.props.userTeamCurrentPoints}

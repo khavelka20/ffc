@@ -5,40 +5,40 @@ export default {
     requestViewModel: function () {
         var self = this;
         return axios.get(`http://www.jerrye25.com/api/FFLDashboard/GetDashboardUser/jerry`)
-            .then(function(response) {
-                _.each(response.data.TopPlayersViewModel.Players, (player) =>{
+            .then(function (response) {
+                _.each(response.data.TopPlayersViewModel.Players, (player) => {
                     player.Show = true;
                 });
-                _.each(response.data.Games, (game) =>{
-                    _.each(game.UserTeam.Players, (player)=>{
+                _.each(response.data.Games, (game) => {
+                    _.each(game.UserTeam.Players, (player) => {
                         player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                     });
-                    _.each(game.OpponentTeam.Players, (player)=>{
+                    _.each(game.OpponentTeam.Players, (player) => {
                         player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                     });
                 });
-                _.each(response.data.WatchedPlayersVM.Players, (player) =>{
+                _.each(response.data.WatchedPlayersVM.Players, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.Players, (player) =>{
+                _.each(response.data.TopPlayersViewModel.Players, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersDT, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersDT, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersPK, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersPK, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersQB, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersQB, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersRB, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersRB, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersTE, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersTE, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
-                _.each(response.data.TopPlayersViewModel.PlayersWR, (player) =>{
+                _.each(response.data.TopPlayersViewModel.PlayersWR, (player) => {
                     player.CurrentWeekStats = self.reformatCurrentWeekStats(player.CurrentWeekStats);
                 });
                 return response.data;
@@ -47,18 +47,22 @@ export default {
 
             });
     },
-    reformatCurrentWeekStats: function(stats){
+    reformatCurrentWeekStats: function (stats) {
         var response = [];
 
-        _.each(stats, (stat) =>{
-            response.push(
-                {
-                    Id: _.uniqueId('stat_'),
-                    Description: stat
-                }
-            )
+        _.each(stats, (stat) => {
+            response.push({
+                Id: _.uniqueId('stat_'),
+                Description: stat
+            })
         }, response)
 
         return response;
+    },
+    saveLeagueSortOrder: function (leagueSortOrder) {
+        return axios.post(`http://www.jerrye25.com/api/FFLDashboard/SaveLeagueSortOrder`, 
+        leagueSortOrder).then(function(response){
+            return response.data;
+        });
     }
 }

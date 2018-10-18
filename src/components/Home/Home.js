@@ -31,7 +31,8 @@ class Home extends Component {
             showTopPlayers: false,
             showLatestScoringPlays: false,
             leagueFilter: "",
-            initialLoad: true
+            initialLoad: true,
+            savingLeagueSortOrder: false
         }
 
         this.onShowStatsClick = this.onShowStatsClick.bind(this);
@@ -45,6 +46,8 @@ class Home extends Component {
         this.onShowWatchedPlayerStatsClick = this.onShowWatchedPlayerStatsClick.bind(this);
         this.onShowTopPlayerStatsClick = this.onShowTopPlayerStatsClick.bind(this);
         this.onChangeCompactModeClick = this.onChangeCompactModeClick.bind(this);
+        this.afterGameDropped = this.afterGameDropped.bind(this);
+        this.saveLeagueSortOrder = this.saveLeagueSortOrder.bind(this);
     }
 
     getGamesShowingDetails() {
@@ -104,6 +107,9 @@ class Home extends Component {
 
     loadData() {
         var self = this;
+        if(this.state.savingLeagueSortOrder){
+            return null;
+        }
         HomeApi.requestViewModel().then(data => {
             var updatedTopPlayersViewModel = self.transferStateToUpdatedTopPlayersViewModel(data.TopPlayersViewModel);
             var updatedWatchedPlayersViewModel = self.transferStateToWatchedPlayersViewModel(data.WatchedPlayersVM);
@@ -237,8 +243,34 @@ class Home extends Component {
         return topPlayersList;
     }
 
-    onSortEnd() {
-        this.sortGames(false, this);
+    afterGameDropped(targetId, sourceId){
+        var games = this.state.games.slice();
+
+        var sourceGame = games.find(game => game.Id === sourceId);
+        var targetGame = games.find(game => game.Id === targetId);
+
+        var sourceGameSortOrder = sourceGame.League.SortOrder;
+        var targetGameSortOrder = targetGame.League.SortOrder;
+
+        sourceGame.League.SortOrder = targetGameSortOrder;
+        targetGame.League.SortOrder = sourceGameSortOrder;
+
+        this.sortGames(false, games);
+        this.setState({games : games});
+
+        this.saveLeagueSortOrder();
+    }
+
+    saveLeagueSortOrder(){
+        this.setState({saveLeagueSortOrder: true});
+        var games = this.state.games.slice();
+        var sortOrderArray  = games.map(game =>
+            ({Id: game.League.Id, SortOrder: game.League.SortOrder})
+        );
+        var leagueSortOrderViewModel = {"LeagueSortOrder": sortOrderArray};
+        HomeApi.saveLeagueSortOrder(leagueSortOrderViewModel).then(data => {
+            this.setState({savingLeagueSortOrder: false});
+        });
     }
 
     render() {
@@ -253,7 +285,7 @@ class Home extends Component {
                             <Link to='/games/add' className="btn btn-primary btn-sm">Add Game</Link>
                         </div>
                         <GameContainer
-                            onSortEnd={this.onSortEnd}
+                            afterGameDropped={this.afterGameDropped}
                             compactMode={this.state.compactMode}
                             onChangeCompactModeClick={this.onChangeCompactModeClick}
                             games={this.state.games}

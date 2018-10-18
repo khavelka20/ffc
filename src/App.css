@@ -4,7 +4,9 @@ body {
   font-family: sans-serif;
   background-color: #ddd;
 }
-
+.dragging{
+  opacity: .75;
+}
 .card-body{
   font-size:14px;
 }
@@ -160,4 +162,8 @@ table.add-game td{
 
 .game-player-stats-table{
   margin-bottom: 0;
+}
+
+.isEntered{
+  background: #FBF5B4;
 }

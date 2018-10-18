@@ -3,6 +3,15 @@ import Game from './Game.js';
 import CondensedGameContainer from './CondensedGameContainer.js';
 
 export default class GameContainer extends Component {
+    constructor() {
+        super();
+
+        this.afterGameDropped = this.afterGameDropped.bind(this);
+    }
+
+    afterGameDropped(targetId, sourceId){
+        this.props.afterGameDropped(targetId, sourceId);
+    }
     renderModeControl() {
         return (
             <div className="form-check abc-checkbox abc-checkbox-success">
@@ -16,7 +25,7 @@ export default class GameContainer extends Component {
                     onChange={this.props.onChangeCompactModeClick} />
                 <label className="form-check-label" htmlFor="compactMode">
                     Compact Mode
-                    </label>
+                </label>
             </div>
         );
     }
@@ -35,6 +44,7 @@ export default class GameContainer extends Component {
                                         <th>You</th>
                                         <th>Them</th>
                                         <th>Status</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,6 +58,7 @@ export default class GameContainer extends Component {
                                                 opponentTeamCurrentPoints={game.OpponentTeam.CurrentPoints}
                                                 gameId={game.Id}
                                                 sortOrder={game.League.SortOrder}
+                                                afterGameDropped={this.afterGameDropped}
                                             />
                                         )
                                     }, this)}
